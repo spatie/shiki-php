@@ -6,10 +6,14 @@ export default {
     input: 'resources/js/index.js',
     output: {
         file: 'dist/shiki.js',
-        format: 'umd',
+        format: 'cjs',
     },
     plugins: [
-        commonjs(),
+        commonjs({
+            dynamicRequireTargets: [
+                'node_modules/onigasm/*.js',
+            ]
+        }),
         nodeResolve(),
         copy({
             targets: [
