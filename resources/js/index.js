@@ -1,5 +1,4 @@
-import 'shiki/dist/index.iife';
-import 'onigasm';
+import 'shiki/dist/index.unpkg.iife';
 import minimist from 'minimist';
 
 const argv = minimist(process.argv.slice(2));
