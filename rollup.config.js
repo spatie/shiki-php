@@ -3,7 +3,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import copy from 'rollup-plugin-copy';
 
 export default {
-    input: 'shiki.js',
+    input: 'resources/js/index.js',
     output: {
         file: 'dist/shiki.js',
         format: 'cjs',

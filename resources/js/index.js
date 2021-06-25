@@ -1,4 +1,4 @@
-import { getHighlighter, BUNDLED_THEMES, BUNDLED_LANGUAGES } from 'shiki';
+import 'shiki/dist/index.iife';
 import minimist from 'minimist';
 
 const argv = minimist(process.argv.slice(2));
@@ -9,7 +9,7 @@ const customLanguages = [{
     path: 'blade.tmLanguage.json',
 }];
 
-const languages = BUNDLED_LANGUAGES;
+const languages = shiki.BUNDLED_LANGUAGES;
 languages.push(...customLanguages);
 
 (() => {
@@ -19,7 +19,7 @@ languages.push(...customLanguages);
     }
 
     if (argv._[0] === 'themes') {
-        process.stdout.write(JSON.stringify(BUNDLED_THEMES));
+        process.stdout.write(JSON.stringify(shiki.BUNDLED_THEMES));
         return;
     }
 
@@ -33,7 +33,7 @@ languages.push(...customLanguages);
         theme = 'nord';
     }
 
-    getHighlighter({
+    shiki.getHighlighter({
         theme,
         paths: {
             themes: 'dist/themes/',
