@@ -15,6 +15,8 @@
 );
 ```
 
+> This package requires you to have Node installed on your server.
+
 ## Support us
 
 [<img src="https://github-ads.s3.eu-central-1.amazonaws.com/shiki-php.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/shiki-php)
