@@ -3,16 +3,17 @@ import minimist from 'minimist';
 
 const argv = minimist(process.argv.slice(2));
 
-const blade = {
+const customLanguages = [{
     id: 'blade',
     scopeName: 'text.html.php.blade',
-    path: 'blade.tmLanguage.json' // or `plist`
-};
+    path: 'blade.tmLanguage.json',
+}];
+
+const languages = BUNDLED_LANGUAGES;
+languages.push(...customLanguages);
 
 (() => {
     if (argv._[0] === 'languages') {
-        const languages = BUNDLED_LANGUAGES;
-        languages.push(blade);
         process.stdout.write(JSON.stringify(languages));
         return;
     }
@@ -37,10 +38,9 @@ const blade = {
         paths: {
             themes: 'dist/themes/',
             languages: 'dist/languages/'
-        }
+        },
+        langs: languages,
     }).then((highlighter) => {
-            highlighter.loadLanguage(blade).then(() => {
-                process.stdout.write(highlighter.codeToHtml(argv._[0], language));
-            })
-        });
+        process.stdout.write(highlighter.codeToHtml(argv._[0], language));
+    });
 })();

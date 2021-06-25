@@ -1379,7 +1379,7 @@ const themes = [
     'solarized-light'
 ];
 
-const languages = [
+const languages$1 = [
     {
         id: 'abap',
         scopeName: 'source.abap',
@@ -3645,7 +3645,7 @@ class Resolver {
         if (lang.grammar) {
             return lang.grammar;
         }
-        const g = await fetchGrammar(languages.includes(lang) ? `${this.languagesPath}${lang.path}` : lang.path);
+        const g = await fetchGrammar(languages$1.includes(lang) ? `${this.languagesPath}${lang.path}` : lang.path);
         lang.grammar = g;
         return g;
     }
@@ -3959,12 +3959,12 @@ class Registry extends main.exports.Registry {
 
 function resolveLang(lang) {
     return typeof lang === 'string'
-        ? languages.find(l => { var _a; return l.id === lang || ((_a = l.aliases) === null || _a === void 0 ? void 0 : _a.includes(lang)); })
+        ? languages$1.find(l => { var _a; return l.id === lang || ((_a = l.aliases) === null || _a === void 0 ? void 0 : _a.includes(lang)); })
         : lang;
 }
 function resolveOptions(options) {
     var _a;
-    let _languages = languages;
+    let _languages = languages$1;
     let _themes = options.themes || [];
     if ((_a = options.langs) === null || _a === void 0 ? void 0 : _a.length) {
         _languages = options.langs.map(resolveLang);
@@ -4316,17 +4316,18 @@ function isNumber (x) {
 
 const argv = minimist(process.argv.slice(2));
 
-const blade = {
+const customLanguages = [{
     id: 'blade',
     scopeName: 'text.html.php.blade',
-    path: 'blade.tmLanguage.json' // or `plist`
-};
+    path: 'blade.tmLanguage.json',
+}];
+
+const languages = languages$1;
+languages.push(...customLanguages);
 
 (() => {
     if (argv._[0] === 'languages') {
-        const languages$1 = languages;
-        languages$1.push(blade);
-        process.stdout.write(JSON.stringify(languages$1));
+        process.stdout.write(JSON.stringify(languages));
         return;
     }
 
@@ -4350,10 +4351,9 @@ const blade = {
         paths: {
             themes: 'dist/themes/',
             languages: 'dist/languages/'
-        }
+        },
+        langs: languages,
     }).then((highlighter) => {
-            highlighter.loadLanguage(blade).then(() => {
-                process.stdout.write(highlighter.codeToHtml(argv._[0], language));
-            });
-        });
+        process.stdout.write(highlighter.codeToHtml(argv._[0], language));
+    });
 })();
