@@ -15,7 +15,7 @@ class ShikiTest extends TestCase
     {
         $code = '<?php echo "Hello World"; ?>';
 
-        $this->assertMatchesHtmlSnapshot(Shiki::codeToHtml($code));
+        $this->assertMatchesSnapshot(Shiki::codeToHtml($code));
     }
 
     /** @test */
@@ -23,7 +23,7 @@ class ShikiTest extends TestCase
     {
         $code = '@if(true) {{ "Hello world" }} @endif';
 
-        $this->assertMatchesHtmlSnapshot(Shiki::codeToHtml($code, language: 'blade'));
+        $this->assertMatchesSnapshot(Shiki::codeToHtml($code, language: 'blade'));
     }
 
     /** @test */
@@ -31,7 +31,7 @@ class ShikiTest extends TestCase
     {
         $code = 'console.log("Hello world")';
 
-        $this->assertMatchesHtmlSnapshot(Shiki::codeToHtml($code, 'js'));
+        $this->assertMatchesSnapshot(Shiki::codeToHtml($code, 'js'));
     }
 
     /** @test */
@@ -39,7 +39,7 @@ class ShikiTest extends TestCase
     {
         $code = '<?php echo "Hello World"; ?>';
 
-        $this->assertMatchesHtmlSnapshot(Shiki::codeToHtml($code, theme: 'github-light'));
+        $this->assertMatchesSnapshot(Shiki::codeToHtml($code, theme: 'github-light'));
     }
 
     /** @test */
