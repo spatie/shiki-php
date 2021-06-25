@@ -1,36 +1,38 @@
 {
-    "name": "vendor_slug/package_slug",
-    "description": ":package_description",
+    "name": "spatie/shiki-php",
+    "description": "Highlight code using Shiki in PHP",
     "keywords": [
-        ":vendor_name",
-        "package_slug"
+        "spatie",
+        "shiki"
     ],
-    "homepage": "https://github.com/vendor_slug/package_slug",
+    "homepage": "https://github.com/spatie/shiki-php",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Rias",
+            "email": "rias@spatie.be",
             "role": "Developer"
         }
     ],
     "require": {
-        "php": "^8.0"
+        "php": "^8.0",
+        "illuminate/collections": "^8.48"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.17",
         "phpunit/phpunit": "^9.5",
+        "spatie/phpunit-snapshot-assertions": "^4.2",
         "spatie/ray": "^1.10",
         "vimeo/psalm": "^4.3"
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src"
+            "Spatie\\ShikiPhp\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests"
+            "Spatie\\ShikiPhp\\Tests\\": "tests"
         }
     },
     "scripts": {
