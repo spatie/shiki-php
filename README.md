@@ -1,20 +1,19 @@
-# This is my package ShikiPhp
+# Code highlighting with Shiki in PHP
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/shiki-php.svg?style=flat-square)](https://packagist.org/packages/spatie/shiki-php)
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/spatie/shiki-php/run-tests?label=tests)](https://github.com/spatie/shiki-php/actions?query=workflow%3ATests+branch%3Amaster)
 [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/spatie/shiki-php/Check%20&%20fix%20styling?label=code%20style)](https://github.com/spatie/shiki-php/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amaster)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/shiki-php.svg?style=flat-square)](https://packagist.org/packages/spatie/shiki-php)
 
----
-This package can be used as to scaffold a Laravel package. Follow these steps to get started:
+[Shiki](https://github.com/shikijs/shiki) is a beautiful syntax highlighter powered by the same language engine that many code editors use. This package allows you to use Shiki from PHP.
 
-1. Press the "Use template" button at the top of this repo to create a new repo with the contents of this shiki-php
-2. Run "./configure.sh" to run a script that will replace all placeholders throughout all the files
-3. Have fun creating your package.
-4. If you need help creating a package, consider picking up our <a href="https://laravelpackage.training">Laravel Package Training</a> video course.
----
-
-This is where your description should go. Try and limit it to a paragraph or two. Consider adding a small example.
+```php
+\Spatie\ShikiPhp\Shiki::codeToHtml(
+    code: '<?php echo "Hello World"; ?>',
+    language: 'php',
+    theme: 'github-light',
+);
+```
 
 ## Support us
 
@@ -35,8 +34,11 @@ composer require spatie/shiki-php
 ## Usage
 
 ```php
-$shiki-php = new Spatie\ShikiPhp();
-echo $shiki-php->echoPhrase('Hello, Spatie!');
+\Spatie\ShikiPhp\Shiki::codeToHtml(
+    code: '<?php echo "Hello World"; ?>',
+    language: 'php',
+    theme: 'github-light',
+);
 ```
 
 ## Testing
