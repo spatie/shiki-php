@@ -6,13 +6,11 @@ export default {
     input: 'resources/js/index.js',
     output: {
         file: 'dist/shiki.js',
-        format: 'cjs',
+        format: 'umd',
     },
     plugins: [
         commonjs(),
-        nodeResolve({
-            exportConditions: ['node'],
-        }),
+        nodeResolve(),
         copy({
             targets: [
                 { src: 'node_modules/shiki/themes', dest: 'dist' },
