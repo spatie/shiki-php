@@ -39,4 +39,6 @@ jobs:
         run: composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
       - name: Execute tests
-        run: vendor/bin/phpunit
+        run: |
+          npm install
+          vendor/bin/phpunit

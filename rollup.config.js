@@ -9,11 +9,7 @@ export default {
         format: 'cjs',
     },
     plugins: [
-        commonjs({
-            dynamicRequireTargets: [
-                'node_modules/onigasm/*.js',
-            ]
-        }),
+        commonjs(),
         nodeResolve(),
         copy({
             targets: [
