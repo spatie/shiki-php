@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Spatie\ShikiPhp;
 
 use Illuminate\Support\Collection;
@@ -10,16 +12,40 @@ class Shiki
 {
     public static function codeToHtml(string $code, string $language = 'php', string $theme = 'nord'): string
     {
+        self::checkTheme($theme);
+        self::checkLanguage($language);
+
+        return self::process($code, $language, $theme);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private static function checkTheme(string $theme): void
+    {
         if (! self::themes()->contains($theme)) {
             throw new \Exception("Invalid theme `{$theme}`");
         }
+    }
 
+    /**
+     * @throws \Exception
+     */
+    private static function checkLanguage(string $language): void
+    {
         $languages = self::languages();
+
         $aliases = $languages->pluck('aliases')->flatten();
         if (! $languages->pluck('id')->merge($aliases)->contains($language)) {
             throw new \Exception("Invalid language `{$language}`");
         }
+    }
 
+    /**
+     * @throws \Symfony\Component\Process\Exception\ProcessFailedException
+     */
+    private static function process(string $code, string $language, string $theme): string
+    {
         $process = new Process(["node", __DIR__ . '/../dist/shiki.js', $code, "--theme={$theme}", "--lang={$language}"]);
         $process->run();
 
@@ -30,29 +56,35 @@ class Shiki
         return $process->getOutput();
     }
 
-    public static function languages(): Collection
+    /**
+     * @throws \Symfony\Component\Process\Exception\ProcessFailedException
+     */
+    private static function languages(): Collection
     {
-        $process = new Process(["node", __DIR__ . '/../dist/shiki.js', 'languages']);
-        $process->run();
-        if (! $process->isSuccessful()) {
-            throw new ProcessFailedException($process);
-        }
-
-        $languages = json_decode($process->getOutput(), true);
-
-        return collect($languages);
+        return self::shiki('languages');
     }
 
-    public static function themes(): Collection
+    /**
+     * @throws \Symfony\Component\Process\Exception\ProcessFailedException
+     */
+    private static function themes(): Collection
     {
-        $process = new Process(["node", __DIR__ . '/../dist/shiki.js', 'themes']);
+        return self::shiki('themes');
+    }
+
+    /**
+     * @throws \Symfony\Component\Process\Exception\ProcessFailedException
+     */
+    private static function shiki(string $value): Collection
+    {
+        $process = new Process(["node", __DIR__ . '/../dist/shiki.js', $value]);
         $process->run();
         if (! $process->isSuccessful()) {
             throw new ProcessFailedException($process);
         }
 
-        $themes = json_decode($process->getOutput(), true);
+        $results = json_decode($process->getOutput(), true);
 
-        return collect($themes);
+        return collect($results);
     }
 }
