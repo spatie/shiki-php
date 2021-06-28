@@ -59,13 +59,15 @@ yarn add shiki
 
 ### Loading a custom theme
 
-Shiki supports any [VSCode themes](https://code.visualstudio.com/docs/getstarted/themes). You can load a theme simply by passing the path as the theme parameter.
+Shiki supports any [VSCode themes](https://code.visualstudio.com/docs/getstarted/themes).
+
+You can load a theme simply by passing the path as the theme parameter, make sure the path is absolute.
 
 ```php
 \Spatie\ShikiPhp\Shiki::codeToHtml(
     code: '<?php echo "Hello World"; ?>',
     language: 'php',
-    theme: 'your-path-to/themes/some-theme.json',
+    theme: __DIR__ . '/your-path-to/themes/some-theme.json',
 );
 ```
 
