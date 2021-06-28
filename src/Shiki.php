@@ -10,10 +10,8 @@ class Shiki
 {
     public static function codeToHtml(string $code, string $language = 'php', string $theme = 'nord'): string
     {
-        if (! file_exists($theme)) {
-            if (! self::themes()->contains($theme)) {
-                throw new \Exception("Invalid theme `{$theme}`");
-            }
+        if (! file_exists($theme) && ! self::themes()->contains($theme)) {
+            throw new \Exception("Invalid theme `{$theme}`");
         }
 
         $languages = self::languages();
