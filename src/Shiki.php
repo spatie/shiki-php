@@ -38,7 +38,7 @@ class Shiki
 
     private static function callShiki(...$arguments): string
     {
-        $process = new Process(["node", __DIR__ . '/shiki.js', ...$arguments]);
+        $process = new Process(["node", __DIR__ . '/shiki.js', ...array_values($arguments)]);
         $process->run();
         if (! $process->isSuccessful()) {
             throw new ProcessFailedException($process);
