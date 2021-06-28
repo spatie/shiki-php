@@ -20,7 +20,7 @@ class Shiki
             throw new \Exception("Invalid language `{$language}`");
         }
 
-        $process = new Process(["node", __DIR__ . '/../dist/shiki.js', $code, "--theme={$theme}", "--lang={$language}"]);
+        $process = new Process(["node", __DIR__ . '/shiki.js', $code, $language, $theme]);
         $process->run();
 
         if (! $process->isSuccessful()) {
@@ -32,7 +32,7 @@ class Shiki
 
     public static function languages(): Collection
     {
-        $process = new Process(["node", __DIR__ . '/../dist/shiki.js', 'languages']);
+        $process = new Process(["node", __DIR__ . '/shiki.js', 'languages']);
         $process->run();
         if (! $process->isSuccessful()) {
             throw new ProcessFailedException($process);
@@ -45,7 +45,7 @@ class Shiki
 
     public static function themes(): Collection
     {
-        $process = new Process(["node", __DIR__ . '/../dist/shiki.js', 'themes']);
+        $process = new Process(["node", __DIR__ . '/shiki.js', 'themes']);
         $process->run();
         if (! $process->isSuccessful()) {
             throw new ProcessFailedException($process);

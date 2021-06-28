@@ -33,6 +33,18 @@ You can install the package via composer:
 composer require spatie/shiki-php
 ```
 
+In your project, you should have the JavaScript package `shiki` installed. You can install it via npm
+
+```bash
+npm install shiki
+```
+
+or Yarn
+
+```bash
+yarn add shiki
+```
+
 ## Usage
 
 ```php

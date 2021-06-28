@@ -27,6 +27,14 @@ class ShikiTest extends TestCase
     }
 
     /** @test */
+    public function it_can_highlight_antlers()
+    {
+        $code = '{{ if }} Hi there {{ /if }}';
+
+        $this->assertMatchesSnapshot(Shiki::codeToHtml($code, language: 'antlers'));
+    }
+
+    /** @test */
     public function it_can_render_for_a_specific_language()
     {
         $code = 'console.log("Hello world")';
