@@ -40,7 +40,7 @@ class Shiki
 
     private static function ensureThemeExists(string $theme): void
     {
-        if (!file_exists($theme) && !self::themes()->contains($theme)) {
+        if (! file_exists($theme) && ! self::themes()->contains($theme)) {
             throw new Exception("Invalid theme `{$theme}`");
         }
     }
@@ -51,7 +51,7 @@ class Shiki
         $aliases = $languages->pluck('aliases')->flatten();
         $languages = $languages->pluck('id')->merge($aliases);
 
-        if (!$languages->contains($language)) {
+        if (! $languages->contains($language)) {
             throw new Exception("Invalid language `{$language}`");
         }
     }
