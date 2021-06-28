@@ -17,7 +17,7 @@
 );
 ```
 
-This package also ships with the following extra languages, on top of the 100+ that Shiki supports: blade, antlers
+This package also ships with the following extra languages, on top of the [100+ that Shiki supports](https://github.com/shikijs/shiki/tree/master/docs/languages.md): blade, antlers
 
 ## Support us
 
