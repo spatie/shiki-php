@@ -19,7 +19,7 @@
         "illuminate/collections": "^8.48"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.17",
+        "friendsofphp/php-cs-fixer": "^v3.0",
         "phpunit/phpunit": "^9.5",
         "spatie/phpunit-snapshot-assertions": "^4.2",
         "spatie/ray": "^1.10",
