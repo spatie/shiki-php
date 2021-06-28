@@ -7,12 +7,12 @@ const customLanguages = [
     {
         id: 'blade',
         scopeName: 'text.html.php.blade',
-        path: '/../../../custom-languages/blade.tmLanguage.json',
+        path: '/../../../languages/blade.tmLanguage.json',
     },
     {
         id: 'antlers',
         scopeName: 'text.html.statamic',
-        path: '/../../../custom-languages/antlers.tmLanguage.json',
+        path: '/../../../languages/antlers.tmLanguage.json',
     }
 ];
 

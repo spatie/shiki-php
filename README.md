@@ -17,7 +17,7 @@
 );
 ```
 
-> This package requires you to have Node installed on your server.
+This package also ships with the following extra languages, on top of the 100+ that Shiki supports: blade, antlers
 
 ## Support us
 
