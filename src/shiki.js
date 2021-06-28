@@ -18,24 +18,22 @@ const customLanguages = [
 const languages = shiki.BUNDLED_LANGUAGES;
 languages.push(...customLanguages);
 
-(() => {
-    if (arguments[0] === 'languages') {
-        process.stdout.write(JSON.stringify(languages));
-        return;
-    }
+if (arguments[0] === 'languages') {
+    process.stdout.write(JSON.stringify(languages));
+    return;
+}
 
-    if (arguments[0] === 'themes') {
-        process.stdout.write(JSON.stringify(shiki.BUNDLED_THEMES));
-        return;
-    }
+if (arguments[0] === 'themes') {
+    process.stdout.write(JSON.stringify(shiki.BUNDLED_THEMES));
+    return;
+}
 
-    const language = arguments[1] || 'php';
-    const theme =arguments[2] || 'nord';
+const language = arguments[1] || 'php';
+const theme =arguments[2] || 'nord';
 
-    shiki.getHighlighter({
-        theme,
-        langs: languages,
-    }).then((highlighter) => {
-        process.stdout.write(highlighter.codeToHtml(arguments[0], language));
-    });
-})();
+shiki.getHighlighter({
+    theme,
+    langs: languages,
+}).then((highlighter) => {
+    process.stdout.write(highlighter.codeToHtml(arguments[0], language));
+});

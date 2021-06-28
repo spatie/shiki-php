@@ -69,4 +69,20 @@ class ShikiTest extends TestCase
 
         Shiki::codeToHtml($code, language: 'invalid-language');
     }
+
+    /** @test * */
+    public function it_can_get_available_languages()
+    {
+        $languages = Shiki::languages();
+
+        $this->assertGreaterThan(0, $languages->count());
+    }
+
+    /** @test * */
+    public function it_can_get_available_themes()
+    {
+        $themes = Shiki::themes();
+
+        $this->assertGreaterThan(0, $themes->count());
+    }
 }
