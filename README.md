@@ -1,3 +1,5 @@
+> **Note: This package is still a work in progress, please don't use it yet**
+
 # Code highlighting with Shiki in PHP
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/shiki-php.svg?style=flat-square)](https://packagist.org/packages/spatie/shiki-php)
