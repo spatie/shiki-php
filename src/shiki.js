@@ -1,4 +1,5 @@
 const shiki = require('shiki');
+const fs = require('fs');
 
 const arguments = process.argv.slice(2);
 
@@ -29,7 +30,11 @@ if (arguments[0] === 'themes') {
 }
 
 const language = arguments[1] || 'php';
-const theme =arguments[2] || 'nord';
+let theme = arguments[2] || 'nord';
+
+if (fs.existsSync(theme)) {
+    theme = JSON.parse(fs.readFileSync(theme, 'utf-8'));
+}
 
 shiki.getHighlighter({
     theme,

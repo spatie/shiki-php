@@ -85,4 +85,12 @@ class ShikiTest extends TestCase
 
         $this->assertGreaterThan(0, $themes->count());
     }
+
+    /** @test * */
+    public function it_can_receive_a_custom_theme()
+    {
+        $code = '<?php echo "Hello World"; ?>';
+
+        $this->assertMatchesSnapshot(Shiki::codeToHtml($code, theme: __DIR__ . '/testfiles/ayu-light.json'));
+    }
 }
