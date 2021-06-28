@@ -11,17 +11,8 @@ class Shiki
 {
     public static function codeToHtml(string $code, string $language = 'php', string $theme = 'nord'): string
     {
-        if (! file_exists($theme) && ! self::themes()->contains($theme)) {
-            throw new Exception("Invalid theme `{$theme}`");
-        }
-
-        $languages = self::languages();
-        $aliases = $languages->pluck('aliases')->flatten();
-        $languages = $languages->pluck('id')->merge($aliases);
-
-        if (! $languages->contains($language)) {
-            throw new Exception("Invalid language `{$language}`");
-        }
+        self::ensureThemeExists($theme);
+        self::ensureLanguageExists($language);
 
         return self::callShiki($code, $language, $theme);
     }
@@ -45,5 +36,23 @@ class Shiki
         }
 
         return $process->getOutput();
+    }
+
+    private static function ensureThemeExists(string $theme): void
+    {
+        if (!file_exists($theme) && !self::themes()->contains($theme)) {
+            throw new Exception("Invalid theme `{$theme}`");
+        }
+    }
+
+    private static function ensureLanguageExists(string $language): void
+    {
+        $languages = self::languages();
+        $aliases = $languages->pluck('aliases')->flatten();
+        $languages = $languages->pluck('id')->merge($aliases);
+
+        if (!$languages->contains($language)) {
+            throw new Exception("Invalid language `{$language}`");
+        }
     }
 }
