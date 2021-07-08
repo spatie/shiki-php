@@ -67,4 +67,3 @@ test('it can receive a custom theme', function () {
 
     assertMatchesSnapshot($highlightedCode);
 });
-
