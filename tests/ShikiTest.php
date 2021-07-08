@@ -6,31 +6,52 @@ use function Spatie\Snapshots\assertMatchesSnapshot;
 test('it can render html', function () {
     $code = '<?php echo "Hello World"; ?>';
 
-    assertMatchesSnapshot(Shiki::codeToHtml($code));
+    $highlightedCode = Shiki::codeToHtml($code);
+
+    assertMatchesSnapshot($highlightedCode);
 });
 
 test('it can highlight blade', function () {
     $code = '@if(true) {{ "Hello world" }} @endif';
 
-    assertMatchesSnapshot(Shiki::codeToHtml($code, language: 'blade'));
+    $highlightedCode = Shiki::codeToHtml($code, language: 'blade');
+
+    assertMatchesSnapshot($highlightedCode);
 });
 
 test('it can highlight antlers', function () {
     $code = '{{ if }} Hi there {{ /if }}';
 
-    assertMatchesSnapshot(Shiki::codeToHtml($code, language: 'antlers'));
+    $highlightedCode = Shiki::codeToHtml($code, language: 'antlers');
+
+    assertMatchesSnapshot($highlightedCode);
 });
 
 test('it can render for a specific language', function () {
     $code = 'console.log("Hello world")';
 
-    assertMatchesSnapshot(Shiki::codeToHtml($code, 'js'));
+    $highlightedCode = Shiki::codeToHtml($code, 'js');
+
+    assertMatchesSnapshot($highlightedCode);
+});
+
+test('it can receive a custom theme', function () {
+    $code = '<?php echo "Hello World"; ?>';
+
+    $highlightedCode = Shiki::codeToHtml(
+        $code,
+        theme: __DIR__ . '/testfiles/ayu-light.json'
+    );
+
+    assertMatchesSnapshot($highlightedCode);
 });
 
 test('it can accept different themes', function () {
     $code = '<?php echo "Hello World"; ?>';
 
-    assertMatchesSnapshot(Shiki::codeToHtml($code, theme: 'github-light'));
+    $highlightedCode = Shiki::codeToHtml($code, theme: 'github-light');
+
+    assertMatchesSnapshot($highlightedCode);
 });
 
 test('it throws on invalid theme', function () {
@@ -56,15 +77,3 @@ test('it can get available themes', function () {
 
     expect($themes->count())->toBeGreaterThan(0);
 });
-
-test('it can receive a custom theme', function () {
-    $code = '<?php echo "Hello World"; ?>';
-
-    $highlightedCode = Shiki::codeToHtml(
-        $code,
-        theme:   __DIR__   . '/testfiles/ayu-light.json'
-    );
-
-    assertMatchesSnapshot($highlightedCode);
-});
-
