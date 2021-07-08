@@ -2,8 +2,6 @@
 
 namespace Spatie\ShikiPhp;
 
-use Exception;
-use Illuminate\Support\Collection;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\Process;
@@ -14,8 +12,7 @@ class Shiki
         string $code,
         string $language = 'php',
         string $theme = 'nord'
-    ): string
-    {
+    ): string {
         return (new static())->highlightCode($code, $language, $theme);
     }
 
@@ -26,7 +23,7 @@ class Shiki
         $languageProperties = json_decode($shikiResult, true);
 
         $languages = array_map(
-            fn($properties) => $properties['id'],
+            fn ($properties) => $properties['id'],
             $languageProperties
         );
 
