@@ -1,5 +1,3 @@
-> **Note: This package is still a work in progress, please don't use it yet**
-
 # Code highlighting with Shiki in PHP
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/shiki-php.svg?style=flat-square)](https://packagist.org/packages/spatie/shiki-php)
@@ -17,10 +15,10 @@
 );
 ```
 
-This package also ships with the following extra languages, on top of the [100+ that Shiki supports](https://github.com/shikijs/shiki/tree/master/docs/languages.md): 
+This package also ships with the following extra languages, on top of the [100+ that Shiki supports](https://github.com/shikijs/shiki/tree/master/docs/languages.md) out of the box: 
 
-- Blade
 - Antlers
+- Blade
 
 ## Support us
 
@@ -52,22 +50,58 @@ yarn add shiki
 
 ## Usage
 
+Here's an example where we are going to highlight some PHP code.
+
 ```php
-\Spatie\ShikiPhp\Shiki::highlight(
+use Spatie\ShikiPhp\Shiki;
+
+Shiki::highlight(
     code: '<?php echo "Hello World"; ?>',
     language: 'php',
     theme: 'github-light',
 );
 ```
 
-### Loading a custom theme
+The output is this chunk of HTML which will render beautifully in the browser:
+
+```php
+<pre class="shiki" style="background-color: #2e3440ff"><code><span class="line"><span style="color: #81A1C1">&lt;?</span><span style="color: #D8DEE9FF">php </span><span style="color: #81A1C1">echo</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">&quot;</span><span style="color: #A3BE8C">Hello World</span><span style="color: #ECEFF4">&quot;</span><span style="color: #81A1C1">;</span><span style="color: #D8DEE9FF"> </span><span style="color: #81A1C1">?&gt;</span></span></code></pre>
+```
+
+## Determining available languages
+
+To get an array with [all languages that Shiki supports](https://github.com/shikijs/shiki/blob/master/docs/languages.md), call `getAvailableLanguages`
+
+```php
+$shiki = new \Spatie\ShikiPhp\Shiki();
+
+$shiki->getAvailableLanguages(); // returns an array
+$shiki->languageIsAvailable('php'); // returns true
+$shiki->languageIsAvailable('non-existing-language'); // returns false
+```
+
+## Determining available themes
+
+To get an array with [all themes that Shiki supports](https://github.com/shikijs/shiki/blob/master/docs/themes.md), call `getAvailableThemes`
+
+```php
+$shiki = new \Spatie\ShikiPhp\Shiki();
+
+$shiki->getAvailableThemes(); // returns an array
+$shiki->themeIsAvailable('github-light'); // returns true
+$shiki->themeIsAvailable('non-existing-theme'); // returns false
+```
+
+### Using a custom theme
 
 Shiki supports any [VSCode themes](https://code.visualstudio.com/docs/getstarted/themes).
 
-You can load a theme simply by passing the path as the theme parameter, make sure the path is absolute.
+You can load a theme simply by passing an absolute path as the theme parameter.
 
 ```php
-\Spatie\ShikiPhp\Shiki::highlight(
+use Spatie\ShikiPhp\Shiki;
+
+Shiki::highlight(
     code: '<?php echo "Hello World"; ?>',
     language: 'php',
     theme: __DIR__ . '/your-path-to/themes/some-theme.json',
@@ -75,6 +109,8 @@ You can load a theme simply by passing the path as the theme parameter, make sur
 ```
 
 ## Testing
+
+You can run all the tests with this command:
 
 ```bash
 composer test
