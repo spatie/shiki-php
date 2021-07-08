@@ -1,7 +1,7 @@
 const shiki = require('shiki');
 const fs = require('fs');
 
-const arguments = process.argv.slice(2);
+const arguments = JSON.parse(process.argv.slice(2));
 
 const customLanguages = [
     {

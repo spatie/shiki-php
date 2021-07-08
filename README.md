@@ -94,7 +94,8 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
-- [Rias](https://github.com/riasvdv)
+- [Rias Van der Veken](https://github.com/riasvdv)
+- [Freek Van der Herten](https://github.com/freekmurze)
 - [All Contributors](../../contributors)
 
 ## License

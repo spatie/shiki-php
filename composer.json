@@ -9,14 +9,18 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Rias",
+            "name": "Rias Van der Veken",
             "email": "rias@spatie.be",
+            "role": "Developer"
+        },
+        {
+            "name": "Freek Van der Herten",
+            "email": "freek@spatie.be",
             "role": "Developer"
         }
     ],
     "require": {
-        "php": "^8.0",
-        "illuminate/collections": "^8.48"
+        "php": "^8.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^v3.0",

@@ -58,22 +58,36 @@ test('it throws on invalid theme', function () {
     $code = '<?php echo "Hello World"; ?>';
 
     Shiki::codeToHtml($code, theme: 'invalid-theme');
-})->throws(Exception::class, "Invalid theme `invalid-theme`");
+})->throws(Exception::class);
 
 test('it throws on invalid language', function () {
     $code = '<?php echo "Hello World"; ?>';
 
     Shiki::codeToHtml($code, language: 'invalid-language');
-})->throws(Exception::class, "Invalid language `invalid-language`");
+})->throws(Exception::class);
 
-test('it can get available languages', function () {
-    $languages = Shiki::languages();
+test('it can get all available themes', function () {
+    $availableThemes = (new Shiki())->getAvailableThemes();
 
-    expect($languages->count())->toBeGreaterThan(0);
+    expect($availableThemes)->not()->toBeEmpty();
 });
 
-test('it can get available themes', function () {
-    $themes = Shiki::themes();
+test('it can get all available languages', function () {
+    $availableLanguages = (new Shiki())->getAvailableLanguages();
 
-    expect($themes->count())->toBeGreaterThan(0);
+    expect($availableLanguages)->not()->toBeEmpty();
+});
+
+test('it can determine that a theme is available', function () {
+    $shiki = (new Shiki());
+
+    expect($shiki->themeIsAvailable('nord'))->toBeTrue();
+    expect($shiki->themeIsAvailable('non-existing-theme'))->toBeFalse();
+});
+
+test('it can determine that a language is available', function () {
+    $shiki = (new Shiki());
+
+    expect($shiki->languageIsAvailable('php'))->toBeTrue();
+    expect($shiki->languageIsAvailable('non-existing-language'))->toBeFalse();
 });

@@ -5,54 +5,78 @@ namespace Spatie\ShikiPhp;
 use Exception;
 use Illuminate\Support\Collection;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\Process;
 
 class Shiki
 {
-    public static function codeToHtml(string $code, string $language = 'php', string $theme = 'nord'): string
+    public static function codeToHtml(
+        string $code,
+        string $language = 'php',
+        string $theme = 'nord'
+    ): string
     {
-        self::ensureThemeExists($theme);
-        self::ensureLanguageExists($language);
-
-        return self::callShiki($code, $language, $theme);
+        return (new static())->highlightCode($code, $language, $theme);
     }
 
-    public static function languages(): Collection
+    public function getAvailableLanguages(): array
     {
-        return collect(json_decode(self::callShiki('languages'), true));
+        $shikiResult = $this->callShiki('languages');
+
+        $languageProperties = json_decode($shikiResult, true);
+
+        $languages = array_map(
+            fn($properties) => $properties['id'],
+            $languageProperties
+        );
+
+        sort($languages);
+
+        return $languages;
     }
 
-    public static function themes(): Collection
+    public function getAvailableThemes(): array
     {
-        return collect(json_decode(self::callShiki('themes'), true));
+        $shikiResult = $this->callShiki('themes');
+
+        return json_decode($shikiResult, true);
     }
 
-    private static function callShiki(...$arguments): string
+    public function languageIsAvailable(string $language): bool
     {
-        $process = new Process(["node", __DIR__ . '/shiki.js', ...array_values($arguments)]);
+        return in_array($language, $this->getAvailableLanguages());
+    }
+
+    public function themeIsAvailable(string $theme): bool
+    {
+        return in_array($theme, $this->getAvailableThemes());
+    }
+
+    public function highlightCode(string $code, string $language, string $theme): string
+    {
+        return $this->callShiki($code, $language, $theme);
+    }
+
+    protected function callShiki(...$arguments): string
+    {
+        $command = [
+            (new ExecutableFinder)->find('node'),
+            'shiki.js',
+            json_encode(array_values($arguments)),
+        ];
+
+        $process = new Process(
+            command: $command,
+            cwd: realpath(__DIR__ . '/../bin'),
+            timeout: null,
+        );
+
         $process->run();
+
         if (! $process->isSuccessful()) {
             throw new ProcessFailedException($process);
         }
 
         return $process->getOutput();
-    }
-
-    private static function ensureThemeExists(string $theme): void
-    {
-        if (! file_exists($theme) && ! self::themes()->contains($theme)) {
-            throw new Exception("Invalid theme `{$theme}`");
-        }
-    }
-
-    private static function ensureLanguageExists(string $language): void
-    {
-        $languages = self::languages();
-        $aliases = $languages->pluck('aliases')->flatten();
-        $languages = $languages->pluck('id')->merge($aliases);
-
-        if (! $languages->contains($language)) {
-            throw new Exception("Invalid language `{$language}`");
-        }
     }
 }
