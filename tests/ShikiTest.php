@@ -1,96 +1,70 @@
 <?php
 
-namespace Spatie\ShikiPhp\Tests;
-
-use PHPUnit\Framework\TestCase;
 use Spatie\ShikiPhp\Shiki;
-use Spatie\Snapshots\MatchesSnapshots;
+use function Spatie\Snapshots\assertMatchesSnapshot;
 
-class ShikiTest extends TestCase
-{
-    use MatchesSnapshots;
+test('it can render html', function () {
+    $code = '<?php echo "Hello World"; ?>';
 
-    /** @test */
-    public function it_can_render_html()
-    {
-        $code = '<?php echo "Hello World"; ?>';
+    assertMatchesSnapshot(Shiki::codeToHtml($code));
+});
 
-        $this->assertMatchesSnapshot(Shiki::codeToHtml($code));
-    }
+test('it can highlight blade', function () {
+    $code = '@if(true) {{ "Hello world" }} @endif';
 
-    /** @test */
-    public function it_can_highlight_blade()
-    {
-        $code = '@if(true) {{ "Hello world" }} @endif';
+    assertMatchesSnapshot(Shiki::codeToHtml($code, language: 'blade'));
+});
 
-        $this->assertMatchesSnapshot(Shiki::codeToHtml($code, language: 'blade'));
-    }
+test('it can highlight antlers', function () {
+    $code = '{{ if }} Hi there {{ /if }}';
 
-    /** @test */
-    public function it_can_highlight_antlers()
-    {
-        $code = '{{ if }} Hi there {{ /if }}';
+    assertMatchesSnapshot(Shiki::codeToHtml($code, language: 'antlers'));
+});
 
-        $this->assertMatchesSnapshot(Shiki::codeToHtml($code, language: 'antlers'));
-    }
+test('it can render for a specific language', function () {
+    $code = 'console.log("Hello world")';
 
-    /** @test */
-    public function it_can_render_for_a_specific_language()
-    {
-        $code = 'console.log("Hello world")';
+    assertMatchesSnapshot(Shiki::codeToHtml($code, 'js'));
+});
 
-        $this->assertMatchesSnapshot(Shiki::codeToHtml($code, 'js'));
-    }
+test('it can accept different themes', function () {
+    $code = '<?php echo "Hello World"; ?>';
 
-    /** @test */
-    public function it_can_accept_different_themes()
-    {
-        $code = '<?php echo "Hello World"; ?>';
+    assertMatchesSnapshot(Shiki::codeToHtml($code, theme: 'github-light'));
+});
 
-        $this->assertMatchesSnapshot(Shiki::codeToHtml($code, theme: 'github-light'));
-    }
+test('it throws on invalid theme', function () {
+    $code = '<?php echo "Hello World"; ?>';
 
-    /** @test */
-    public function it_throws_on_invalid_theme()
-    {
-        $code = '<?php echo "Hello World"; ?>';
+    Shiki::codeToHtml($code, theme: 'invalid-theme');
+})->throws(Exception::class, "Invalid theme `invalid-theme`");
 
-        $this->expectExceptionMessage("Invalid theme `invalid-theme`");
+test('it throws on invalid language', function () {
+    $code = '<?php echo "Hello World"; ?>';
 
-        Shiki::codeToHtml($code, theme: 'invalid-theme');
-    }
+    Shiki::codeToHtml($code, language: 'invalid-language');
+})->throws(Exception::class, "Invalid language `invalid-language`");
 
-    /** @test */
-    public function it_throws_on_invalid_language()
-    {
-        $code = '<?php echo "Hello World"; ?>';
+test('it can get available languages', function () {
+    $languages = Shiki::languages();
 
-        $this->expectExceptionMessage("Invalid language `invalid-language`");
+    expect($languages->count())->toBeGreaterThan(0);
+});
 
-        Shiki::codeToHtml($code, language: 'invalid-language');
-    }
+test('it can get available themes', function () {
+    $themes = Shiki::themes();
 
-    /** @test * */
-    public function it_can_get_available_languages()
-    {
-        $languages = Shiki::languages();
+    expect($themes->count())->toBeGreaterThan(0);
+});
 
-        $this->assertGreaterThan(0, $languages->count());
-    }
+test('it can receive a custom theme', function () {
+    $code = '<?php echo "Hello World"; ?>';
 
-    /** @test * */
-    public function it_can_get_available_themes()
-    {
-        $themes = Shiki::themes();
+    $highlightedCode = Shiki::codeToHtml(
+        $code,
+        theme:   __DIR__   . '/testfiles/ayu-light.json'
+    );
 
-        $this->assertGreaterThan(0, $themes->count());
-    }
+    assertMatchesSnapshot($highlightedCode);
+});
 
-    /** @test * */
-    public function it_can_receive_a_custom_theme()
-    {
-        $code = '<?php echo "Hello World"; ?>';
-
-        $this->assertMatchesSnapshot(Shiki::codeToHtml($code, theme: __DIR__ . '/testfiles/ayu-light.json'));
-    }
-}
