@@ -10,7 +10,7 @@ use Symfony\Component\Process\Process;
 
 class Shiki
 {
-    public static function codeToHtml(
+    public static function highlight(
         string $code,
         string $language = 'php',
         string $theme = 'nord'

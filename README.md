@@ -10,7 +10,7 @@
 [Shiki](https://github.com/shikijs/shiki) is a beautiful syntax highlighter powered by the same language engine that many code editors use. This package allows you to use Shiki from PHP.
 
 ```php
-\Spatie\ShikiPhp\Shiki::codeToHtml(
+\Spatie\ShikiPhp\Shiki::highlight(
     code: '<?php echo "Hello World"; ?>',
     language: 'php',
     theme: 'github-light',
@@ -53,7 +53,7 @@ yarn add shiki
 ## Usage
 
 ```php
-\Spatie\ShikiPhp\Shiki::codeToHtml(
+\Spatie\ShikiPhp\Shiki::highlight(
     code: '<?php echo "Hello World"; ?>',
     language: 'php',
     theme: 'github-light',
@@ -67,7 +67,7 @@ Shiki supports any [VSCode themes](https://code.visualstudio.com/docs/getstarted
 You can load a theme simply by passing the path as the theme parameter, make sure the path is absolute.
 
 ```php
-\Spatie\ShikiPhp\Shiki::codeToHtml(
+\Spatie\ShikiPhp\Shiki::highlight(
     code: '<?php echo "Hello World"; ?>',
     language: 'php',
     theme: __DIR__ . '/your-path-to/themes/some-theme.json',
