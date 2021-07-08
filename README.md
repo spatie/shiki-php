@@ -134,6 +134,8 @@ Please review [our security policy](../../security/policy) on how to report secu
 - [Freek Van der Herten](https://github.com/freekmurze)
 - [All Contributors](../../contributors)
 
+The Blade syntax highlighting source is taken from [this repo](https://github.com/onecentlin/laravel-blade-snippets-vscode/blob/master/syntaxes/blade.tmLanguage.json).
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
