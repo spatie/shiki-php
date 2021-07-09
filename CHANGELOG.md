@@ -2,6 +2,10 @@
 
 All notable changes to `shiki-php` will be documented in this file.
 
+## 1.0.2 - 2021-07-09
+
+- significantly improve speed
+
 ## 1.0.1 - 2021-07-09
 
 - use default executable name
