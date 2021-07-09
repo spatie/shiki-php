@@ -34,7 +34,8 @@ class Shiki
 
     public function __construct(
         protected string $defaultTheme = 'nord'
-    ) {}
+    ) {
+    }
 
     public function getAvailableThemes(): array
     {
