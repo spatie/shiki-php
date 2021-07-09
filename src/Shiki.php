@@ -32,6 +32,10 @@ class Shiki
         return $languages;
     }
 
+    public function __construct(
+        protected string $defaultTheme = 'nord'
+    ) {}
+
     public function getAvailableThemes(): array
     {
         $shikiResult = $this->callShiki('themes');
@@ -49,8 +53,10 @@ class Shiki
         return in_array($theme, $this->getAvailableThemes());
     }
 
-    public function highlightCode(string $code, string $language, string $theme): string
+    public function highlightCode(string $code, string $language, ?string $theme = null): string
     {
+        $theme = $theme ?? $this->defaultTheme;
+
         return $this->callShiki($code, $language, $theme);
     }
 

@@ -1,18 +1,19 @@
 const shiki = require('shiki');
 const fs = require('fs');
+const path = require('path');
 
 const arguments = JSON.parse(process.argv.slice(2));
 
 const customLanguages = [
     {
-        id: 'blade',
-        scopeName: 'text.html.php.blade',
-        path: '/../../../languages/blade.tmLanguage.json',
-    },
-    {
         id: 'antlers',
         scopeName: 'text.html.statamic',
-        path: '/../../../languages/antlers.tmLanguage.json',
+        path: getLanguagePath('antlers'),
+    },
+    {
+        id: 'blade',
+        scopeName: 'text.html.php.blade',
+        path: getLanguagePath('blade'),
     }
 ];
 
@@ -42,3 +43,12 @@ shiki.getHighlighter({
 }).then((highlighter) => {
     process.stdout.write(highlighter.codeToHtml(arguments[0], language));
 });
+
+function getLanguagePath(language)
+{
+    const pathToShikiDistDirectory = path.dirname(require.resolve('shiki'));
+    const pathToShikiLanguages = path.resolve(`${pathToShikiDistDirectory}/../languages`);
+    const relativeDirectory = path.relative(pathToShikiLanguages, `${__dirname}/../languages`) ;
+
+    return `${relativeDirectory}/${language}.tmLanguage.json`
+}
