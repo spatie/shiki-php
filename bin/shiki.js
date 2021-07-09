@@ -17,7 +17,12 @@ const customLanguages = [
     }
 ];
 
-const languages = shiki.BUNDLED_LANGUAGES;
+if (arguments[0] === 'themes') {
+    process.stdout.write(JSON.stringify(shiki.BUNDLED_THEMES));
+    return;
+}
+
+let languages = shiki.BUNDLED_LANGUAGES;
 languages.push(...customLanguages);
 
 if (arguments[0] === 'languages') {
@@ -25,13 +30,10 @@ if (arguments[0] === 'languages') {
     return;
 }
 
-if (arguments[0] === 'themes') {
-    process.stdout.write(JSON.stringify(shiki.BUNDLED_THEMES));
-    return;
-}
-
 const language = arguments[1] || 'php';
 let theme = arguments[2] || 'nord';
+
+languages = languages.filter(l => l.id === language || l.aliases?.includes(language));
 
 if (fs.existsSync(theme)) {
     theme = JSON.parse(fs.readFileSync(theme, 'utf-8'));
