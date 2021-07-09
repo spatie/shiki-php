@@ -64,7 +64,7 @@ class Shiki
     protected function callShiki(...$arguments): string
     {
         $command = [
-            (new ExecutableFinder)->find('node'),
+            (new ExecutableFinder)->find('node', 'node'),
             'shiki.js',
             json_encode(array_values($arguments)),
         ];
