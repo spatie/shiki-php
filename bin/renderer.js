@@ -84,13 +84,13 @@ const makeHighlightSet = function(highlightLines) {
     }
 
     for (let lineSpec of highlightLines) {
-        if (typeof lineSpec === 'number') {
-            lines.add(lineSpec);
-        } else if (lineSpec.includes('-')) {
+        if (lineSpec.toString().includes('-')) {
             const [begin, end] = lineSpec.split('-').map(lineNo => Number(lineNo))
             for (let line = begin; line <= end; line++) {
                 lines.add(line);
             }
+        } else {
+            lines.add(Number(lineSpec));
         }
     }
 

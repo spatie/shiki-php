@@ -50,7 +50,7 @@ test('it can mark multiple lines as highlighted', function () {
         return null;
     ";
 
-    $highlightedCode = Shiki::highlight($code, highlightLines: ['2-4']);
+    $highlightedCode = Shiki::highlight($code, highlightLines: ['1', '2-4']);
 
     assertMatchesSnapshot($highlightedCode);
 });
