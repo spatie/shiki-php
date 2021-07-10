@@ -1,13 +1,27 @@
+const shiki = require('shiki');
+
+const FontStyle = {
+    NotSet: -1,
+    None: 0,
+    Italic: 1,
+    Bold: 2,
+    Underline: 4
+}
+
+const FONT_STYLE_TO_CSS = {
+    [FontStyle.Italic]: 'font-style: italic',
+    [FontStyle.Bold]: 'font-weight: bold',
+    [FontStyle.Underline]: 'text-decoration: underline'
+}
+
 const renderToHtml = function(lines, options = {}) {
     const bg = options.bg || '#fff'
-    const fg = options.fg || '#000'
     const highlightedLines = makeHighlightSet(options.highlightLines)
     const addLines = makeHighlightSet(options.addLines)
     const deleteLines = makeHighlightSet(options.deleteLines)
     const focusLines = makeHighlightSet(options.focusLines)
+    let className = 'shiki';
 
-    let html = ''
-    let className = 'shiki'
     if (highlightedLines.size) {
         className += ' highlighted'
     }
@@ -21,58 +35,41 @@ const renderToHtml = function(lines, options = {}) {
         className += ' has-focus'
     }
 
-    html += `<pre class="${className}" style="background-color: ${bg}; color: ${fg}" data-language="${options.langId}">`
+    let html = ''
+
+    html += `<pre class="${className}" style="background-color: ${bg}">`
+    if (options.langId) {
+        html += `<div class="language-id">${options.langId}</div>`
+    }
     html += `<code>`
 
     lines.forEach((l, index) => {
-        const lineNo = index + 1
+        const lineNumber = index + 1;
+
         let highlightClasses = ''
-        if (highlightedLines.has(lineNo)) {
-            highlightClasses += ' hl'
+        if (highlightedLines.has(lineNumber)) {
+            highlightClasses += ' highlight'
         }
-        if (addLines.has(lineNo)) {
+        if (addLines.has(lineNumber)) {
             highlightClasses += ' add'
         }
-        if (deleteLines.has(lineNo)) {
+        if (deleteLines.has(lineNumber)) {
             highlightClasses += ' del'
         }
-        if (focusLines.has(lineNo)) {
-            highlightClasses += ' foc'
-        }
-        if (highlightClasses) {
-            html += `<span class="${highlightClasses.trim()}">`
+        if (focusLines.has(lineNumber)) {
+            highlightClasses += ' focus'
         }
 
-        if (l.length > 0) {
-            l.forEach(token => {
-                let debugInfo = ''
-                if (options.debugColors) {
-                    const tokenScopes = token.explanation
-                        .map(ex => ex.scopes.map(s => s.scopeName).join(', '))
-                        .join('; ')
-                    const themeMatches = token.explanation
-                        .map(ex =>
-                            ex.scopes
-                                .map(s => s.themeMatches?.map(tm => tm.name).join(','))
-                                .filter(Boolean)
-                                .join('; ')
-                        )
-                        .filter(Boolean)
-                        .join(' | ')
-                    debugInfo = ` data-token-scopes="${tokenScopes}" data-theme-matches="${themeMatches}"`
-                }
-                html += `<span style="color: ${token.color}"${debugInfo}>${escapeHtml(
-                    token.content
-                )}</span>`
-            })
-        }
+        html += `<span class="line ${highlightClasses.trim()}">`
 
-        if (highlightClasses) {
-            // Newline goes before the close, so that display:block on the line will work
-            html += `\n</span>`
-        } else {
-            html += `\n`
-        }
+        l.forEach(token => {
+            const cssDeclarations = [`color: ${token.color || options.fg}`]
+            if (token.fontStyle > FontStyle.None) {
+                cssDeclarations.push(FONT_STYLE_TO_CSS[token.fontStyle])
+            }
+            html += `<span style="${cssDeclarations.join('; ')}">${escapeHtml(token.content)}</span>`
+        })
+        html += `</span>\n`
     })
     html = html.replace(/\n*$/, '') // Get rid of final new lines
     html += `</code></pre>`
@@ -80,29 +77,20 @@ const renderToHtml = function(lines, options = {}) {
     return html
 }
 
-function commaSeparatedLinesToArray(lineList) {
-    return lineList.split(',').map(segment => {
-        if (Number(segment) > 0) {
-            return Number(segment)
-        }
-        return segment
-    })
-}
-
 const makeHighlightSet = function(highlightLines) {
     const lines = new Set();
 
-    if (!highlightLines) {
-        return lines
+    if (! highlightLines) {
+        return lines;
     }
 
     for (let lineSpec of highlightLines) {
         if (typeof lineSpec === 'number') {
-            lines.add(lineSpec)
+            lines.add(lineSpec);
         } else if (lineSpec.includes('-')) {
             const [begin, end] = lineSpec.split('-').map(lineNo => Number(lineNo))
             for (let line = begin; line <= end; line++) {
-                lines.add(line)
+                lines.add(line);
             }
         }
     }
@@ -110,15 +98,16 @@ const makeHighlightSet = function(highlightLines) {
     return lines
 }
 
+const htmlEscapes = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+}
+
 function escapeHtml(html) {
-    return (
-        html
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            //.replace(/&/g, '&amp;')  // why do this twice?
-            .replace(/'/g, '&apos;')
-    )
+    return html.replace(/[&<>"']/g, chr => htmlEscapes[chr])
 }
 
 exports.renderToHtml = renderToHtml;
