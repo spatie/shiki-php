@@ -132,7 +132,7 @@ $shiki->themeIsAvailable('non-existing-theme'); // returns false
 
 ### Using a custom theme
 
-Shiki supports any [VSCode themes](https://code.visualstudio.com/docs/getstarted/themes).
+Shiki [supports](https://github.com/shikijs/shiki/blob/master/docs/themes.md) any [VSCode themes](https://code.visualstudio.com/docs/getstarted/themes).
 
 You can load a theme simply by passing an absolute path as the theme parameter.
 
