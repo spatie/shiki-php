@@ -3,7 +3,7 @@
 use Spatie\ShikiPhp\Shiki;
 use function Spatie\Snapshots\assertMatchesSnapshot;
 
-test('it can highlight html', function () {
+test('it can highlight php', function () {
     $code = '<?php echo "Hello World"; ?>';
 
     $highlightedCode = Shiki::highlight($code);
@@ -31,6 +31,50 @@ test('it can render for a specific language', function () {
     $code = 'console.log("Hello world")';
 
     $highlightedCode = Shiki::highlight($code, 'js');
+
+    assertMatchesSnapshot($highlightedCode);
+});
+
+test('it can mark lines as highlighted', function () {
+    $code = '<?php echo "Hello World"; ?>';
+
+    $highlightedCode = Shiki::highlight($code, highlightLines: [1]);
+
+    assertMatchesSnapshot($highlightedCode);
+});
+
+test('it can mark multiple lines as highlighted', function () {
+    $code = "
+        <?php\n
+        echo 'Hello World';\n
+        return null;
+    ";
+
+    $highlightedCode = Shiki::highlight($code, highlightLines: ['2-4']);
+
+    assertMatchesSnapshot($highlightedCode);
+});
+
+test('it can mark lines as added', function () {
+    $code = '<?php echo "Hello World"; ?>';
+
+    $highlightedCode = Shiki::highlight($code, addLines: [1]);
+
+    assertMatchesSnapshot($highlightedCode);
+});
+
+test('it can mark lines as deleted', function () {
+    $code = '<?php echo "Hello World"; ?>';
+
+    $highlightedCode = Shiki::highlight($code, deleteLines: [1]);
+
+    assertMatchesSnapshot($highlightedCode);
+});
+
+test('it can mark lines as focus', function () {
+    $code = '<?php echo "Hello World"; ?>';
+
+    $highlightedCode = Shiki::highlight($code, focusLines: [1]);
 
     assertMatchesSnapshot($highlightedCode);
 });

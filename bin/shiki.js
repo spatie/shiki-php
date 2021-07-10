@@ -1,6 +1,7 @@
 const shiki = require('shiki');
 const fs = require('fs');
 const path = require('path');
+const renderer = require('./renderer');
 
 const arguments = JSON.parse(process.argv.slice(2));
 
@@ -43,7 +44,18 @@ shiki.getHighlighter({
     theme,
     langs: languages,
 }).then((highlighter) => {
-    process.stdout.write(highlighter.codeToHtml(arguments[0], language));
+    const tokens = highlighter.codeToThemedTokens(arguments[0], language);
+    const theme = highlighter.getTheme();
+    const options = arguments[3];
+
+    process.stdout.write(renderer.renderToHtml(tokens, {
+        fg: theme.fg,
+        bg: theme.bg,
+        highlightLines: options.highlightLines,
+        addLines: options.addLines,
+        deleteLines: options.deleteLines,
+        focusLines: options.focusLines,
+    }));
 });
 
 function getLanguagePath(language)

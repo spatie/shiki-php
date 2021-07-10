@@ -68,6 +68,44 @@ The output is this chunk of HTML which will render beautifully in the browser:
 <pre class="shiki" style="background-color: #2e3440ff"><code><span class="line"><span style="color: #81A1C1">&lt;?</span><span style="color: #D8DEE9FF">php </span><span style="color: #81A1C1">echo</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">&quot;</span><span style="color: #A3BE8C">Hello World</span><span style="color: #ECEFF4">&quot;</span><span style="color: #81A1C1">;</span><span style="color: #D8DEE9FF"> </span><span style="color: #81A1C1">?&gt;</span></span></code></pre>
 ```
 
+## Marking lines as highlighted, added, deleted or focus
+
+Shiki-php allows you to mark certain lines as `highlighted`, `added`, `deleted` and `focus`. To do this, you can pass in the necessary lines to the `highlight` method:
+
+```php
+use Spatie\ShikiPhp\Shiki;
+
+// Highlighting lines 1 and 4,5,6
+Shiki::highlight(
+    code: $code,
+    language: 'php',
+    highlightLines: [1, '4-6'],
+);
+
+// Marking line 1 as added
+Shiki::highlight(
+    code: $code,
+    language: 'php',
+    addLines: [1],
+);
+
+// Marking line 1 as deleted
+Shiki::highlight(
+    code: $code,
+    language: 'php',
+    deleteLines: [1],
+);
+
+// Marking line 1 as focus
+Shiki::highlight(
+    code: $code,
+    language: 'php',
+    focusLines: [1],
+);
+```
+
+You can then target these classes in your own CSS to color these lines how you want.
+
 ## Determining available languages
 
 To get an array with [all languages that Shiki supports](https://github.com/shikijs/shiki/blob/master/docs/languages.md), call `getAvailableLanguages`

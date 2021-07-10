@@ -1,5 +1,3 @@
-const shiki = require('shiki');
-
 const FontStyle = {
     NotSet: -1,
     None: 0,
@@ -16,10 +14,11 @@ const FONT_STYLE_TO_CSS = {
 
 const renderToHtml = function(lines, options = {}) {
     const bg = options.bg || '#fff'
-    const highlightedLines = makeHighlightSet(options.highlightLines)
-    const addLines = makeHighlightSet(options.addLines)
-    const deleteLines = makeHighlightSet(options.deleteLines)
-    const focusLines = makeHighlightSet(options.focusLines)
+    const highlightedLines = makeHighlightSet(options.highlightLines);
+    const addLines = makeHighlightSet(options.addLines);
+    const deleteLines = makeHighlightSet(options.deleteLines);
+    const focusLines = makeHighlightSet(options.focusLines);
+
     let className = 'shiki';
 
     if (highlightedLines.size) {
@@ -32,7 +31,7 @@ const renderToHtml = function(lines, options = {}) {
         className += ' deleted'
     }
     if (focusLines.size) {
-        className += ' has-focus'
+        className += ' focus'
     }
 
     let html = ''
@@ -46,21 +45,21 @@ const renderToHtml = function(lines, options = {}) {
     lines.forEach((l, index) => {
         const lineNumber = index + 1;
 
-        let highlightClasses = ''
+        let lineClass = 'line'
         if (highlightedLines.has(lineNumber)) {
-            highlightClasses += ' highlight'
+            lineClass += ' highlight'
         }
         if (addLines.has(lineNumber)) {
-            highlightClasses += ' add'
+            lineClass += ' add'
         }
         if (deleteLines.has(lineNumber)) {
-            highlightClasses += ' del'
+            lineClass += ' del'
         }
         if (focusLines.has(lineNumber)) {
-            highlightClasses += ' focus'
+            lineClass += ' focus'
         }
 
-        html += `<span class="line ${highlightClasses.trim()}">`
+        html += `<span class="${lineClass.trim()}">`
 
         l.forEach(token => {
             const cssDeclarations = [`color: ${token.color || options.fg}`]
@@ -111,4 +110,3 @@ function escapeHtml(html) {
 }
 
 exports.renderToHtml = renderToHtml;
-exports.makeHighlightSet = makeHighlightSet;

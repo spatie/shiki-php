@@ -11,9 +11,18 @@ class Shiki
     public static function highlight(
         string $code,
         string $language = 'php',
-        string $theme = 'nord'
+        string $theme = 'nord',
+        array $highlightLines = [],
+        array $addLines = [],
+        array $deleteLines = [],
+        array $focusLines = [],
     ): string {
-        return (new static())->highlightCode($code, $language, $theme);
+        return (new static())->highlightCode($code, $language, $theme, [
+            'highlightLines' => $highlightLines,
+            'addLines' => $addLines,
+            'deleteLines' => $deleteLines,
+            'focusLines' => $focusLines,
+        ]);
     }
 
     public function getAvailableLanguages(): array
@@ -54,11 +63,11 @@ class Shiki
         return in_array($theme, $this->getAvailableThemes());
     }
 
-    public function highlightCode(string $code, string $language, ?string $theme = null): string
+    public function highlightCode(string $code, string $language, ?string $theme = null, ?array $options = []): string
     {
         $theme = $theme ?? $this->defaultTheme;
 
-        return $this->callShiki($code, $language, $theme);
+        return $this->callShiki($code, $language, $theme, $options);
     }
 
     protected function callShiki(...$arguments): string
