@@ -19,6 +19,18 @@ test('it can highlight blade', function () {
     assertMatchesSnapshot($highlightedCode);
 });
 
+test('it can highlight blade with html inside', function () {
+    $code = <<<blade
+    @if(\$foo)
+        <p>{{ "Hello world" }}</p>
+    @endif
+    blade;
+
+    $highlightedCode = Shiki::highlight($code, language: 'blade', theme: 'github-light');
+
+    assertMatchesSnapshot($highlightedCode);
+});
+
 test('it can highlight antlers', function () {
     $code = '{{ if }} Hi there {{ /if }}';
 
