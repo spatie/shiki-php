@@ -2,6 +2,10 @@
 
 All notable changes to `shiki-php` will be documented in this file.
 
+## 1.1.2 - 2021-07-11
+
+- Fix an issue where focus was applied to the Shiki div when not needed
+
 ## 1.1.1 - 2021-07-10
 
 - Fix an issue when passing lines to be highlighted
