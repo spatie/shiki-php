@@ -10,12 +10,14 @@ const customLanguages = [
         id: 'antlers',
         scopeName: 'text.html.statamic',
         path: getLanguagePath('antlers'),
+        embeddedLangs: ['html'],
     },
     {
         id: 'blade',
         scopeName: 'text.html.php.blade',
         path: getLanguagePath('blade'),
-    }
+        embeddedLangs: ['html', 'php'],
+    },
 ];
 
 if (arguments[0] === 'themes') {
@@ -23,18 +25,31 @@ if (arguments[0] === 'themes') {
     return;
 }
 
-let languages = shiki.BUNDLED_LANGUAGES;
-languages.push(...customLanguages);
+let allLanguages = shiki.BUNDLED_LANGUAGES;
+allLanguages.push(...customLanguages);
 
 if (arguments[0] === 'languages') {
-    process.stdout.write(JSON.stringify(languages));
+    process.stdout.write(JSON.stringify(allLanguages));
     return;
 }
 
 const language = arguments[1] || 'php';
 let theme = arguments[2] || 'nord';
 
-languages = languages.filter(l => l.id === language || l.aliases?.includes(language));
+const languagesToLoad = allLanguages.filter(lang => lang.id === language || lang.aliases?.includes(language));
+
+(function loadEmbeddedLangsRecursively() {
+    languagesToLoad.forEach(function (language) {
+        language.embeddedLangs?.forEach(function (languageKey) {
+            if (languagesToLoad.find(lang => lang.id === languageKey || lang.aliases?.includes(languageKey))) {
+                return;
+            }
+
+            languagesToLoad.push(allLanguages.find(lang => lang.id === languageKey || lang.aliases?.includes(languageKey)));
+            loadEmbeddedLangsRecursively();
+        });
+    });
+})();
 
 if (fs.existsSync(theme)) {
     theme = JSON.parse(fs.readFileSync(theme, 'utf-8'));
@@ -42,11 +57,11 @@ if (fs.existsSync(theme)) {
 
 shiki.getHighlighter({
     theme,
-    langs: languages,
+    langs: languagesToLoad,
 }).then((highlighter) => {
     const tokens = highlighter.codeToThemedTokens(arguments[0], language);
     const theme = highlighter.getTheme();
-    const options = arguments[3];
+    const options = arguments[3] ?? {};
 
     process.stdout.write(renderer.renderToHtml(tokens, {
         fg: theme.fg,
