@@ -137,18 +137,6 @@ test('it can accept different themes', function (Shiki $shiki) {
     assertMatchesSnapshot($highlightedCode);
 })->with('shiki');
 
-test('it throws on invalid theme', function (Shiki $shiki) {
-    $code = '<?php echo "Hello World"; ?>';
-
-    $shiki->highlightCode($code, 'php', theme: 'invalid-theme');
-})->with('shiki')->throws(Exception::class);
-
-test('it throws on invalid language', function (Shiki $shiki) {
-    $code = '<?php echo "Hello World"; ?>';
-
-    $shiki->highlightCode($code, language: 'invalid-language');
-})->with('shiki')->throws(Exception::class);
-
 test('it can get all available themes', function (Shiki $shiki) {
     $availableThemes = $shiki->getAvailableThemes();
 
