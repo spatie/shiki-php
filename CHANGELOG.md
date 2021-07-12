@@ -18,6 +18,7 @@ All notable changes to `shiki-php` will be documented in this file.
 
 - use default executable name
 
+
 ## 1.0.0 - 2021-07-09
 
 - initial release
