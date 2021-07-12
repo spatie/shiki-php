@@ -132,7 +132,7 @@ $shiki->themeIsAvailable('non-existing-theme'); // returns false
 
 ### Using a custom theme
 
-Shiki supports any [VSCode themes](https://code.visualstudio.com/docs/getstarted/themes).
+Shiki [supports](https://github.com/shikijs/shiki/blob/master/docs/themes.md) any [VSCode themes](https://code.visualstudio.com/docs/getstarted/themes).
 
 You can load a theme simply by passing an absolute path as the theme parameter.
 
@@ -173,6 +173,10 @@ Please review [our security policy](../../security/policy) on how to report secu
 - [All Contributors](../../contributors)
 
 The Blade syntax highlighting source is taken from [this repo](https://github.com/onecentlin/laravel-blade-snippets-vscode/blob/master/syntaxes/blade.tmLanguage.json).
+
+## Alternatives
+
+If you don't want to install and handle Shiki yourself, take a look at [Torchlight](https://torchlight.dev), which can highlight your code with minimal setup.
 
 ## License
 

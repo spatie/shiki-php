@@ -89,7 +89,7 @@ const makeHighlightSet = function(highlightLines) {
             for (let line = begin; line <= end; line++) {
                 lines.add(line);
             }
-        } else {
+        } else if (lineSpec.toString().trim()) {
             lines.add(Number(lineSpec));
         }
     }
