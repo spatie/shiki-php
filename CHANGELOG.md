@@ -2,6 +2,10 @@
 
 All notable changes to `shiki-php` will be documented in this file.
 
+## 1.1.5 - 2021-07-12
+
+- Update Antlers syntax highlighting
+
 ## 1.1.4 - 2021-07-12
 
 - Fix compatibility on lower versions of Node

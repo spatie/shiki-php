@@ -175,6 +175,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 - [All Contributors](../../contributors)
 
 The Blade syntax highlighting source is taken from [this repo](https://github.com/onecentlin/laravel-blade-snippets-vscode/blob/master/syntaxes/blade.tmLanguage.json).
+The Antlers syntax highlighting source is taken from [this repo](https://github.com/Stillat/vscode-antlers-language-server/blob/main/client/syntaxes/antlers.json)
 
 ## Alternatives
 
