@@ -48,6 +48,8 @@ npm install shiki
 yarn add shiki
 ```
 
+Make sure you have installed Node 10 or higher.
+
 ## Usage
 
 Here's an example where we are going to highlight some PHP code.
