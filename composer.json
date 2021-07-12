@@ -20,6 +20,7 @@
         }
     ],
     "require": {
+        "ext-curl": "*",
         "php": "^8.0"
     },
     "require-dev": {

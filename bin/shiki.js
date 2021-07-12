@@ -1,32 +1,16 @@
 const shiki = require('shiki');
 const fs = require('fs');
-const path = require('path');
 const renderer = require('./renderer');
+const { getAllLanguages } = require("./util");
 
 const arguments = JSON.parse(process.argv.slice(2));
-
-const customLanguages = [
-    {
-        id: 'antlers',
-        scopeName: 'text.html.statamic',
-        path: getLanguagePath('antlers'),
-        embeddedLangs: ['html'],
-    },
-    {
-        id: 'blade',
-        scopeName: 'text.html.php.blade',
-        path: getLanguagePath('blade'),
-        embeddedLangs: ['html', 'php'],
-    },
-];
 
 if (arguments[0] === 'themes') {
     process.stdout.write(JSON.stringify(shiki.BUNDLED_THEMES));
     return;
 }
 
-let allLanguages = shiki.BUNDLED_LANGUAGES;
-allLanguages.push(...customLanguages);
+const allLanguages = getAllLanguages();
 
 if (arguments[0] === 'languages') {
     process.stdout.write(JSON.stringify(allLanguages));
@@ -73,12 +57,3 @@ shiki.getHighlighter({
         focusLines: options.focusLines,
     }));
 });
-
-function getLanguagePath(language)
-{
-    const pathToShikiDistDirectory = path.dirname(require.resolve('shiki'));
-    const pathToShikiLanguages = path.resolve(`${pathToShikiDistDirectory}/../languages`);
-    const relativeDirectory = path.relative(pathToShikiLanguages, `${__dirname}/../languages`) ;
-
-    return `${relativeDirectory}/${language}.tmLanguage.json`
-}

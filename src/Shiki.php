@@ -2,6 +2,7 @@
 
 namespace Spatie\ShikiPhp;
 
+use Exception;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\Process;
@@ -16,8 +17,13 @@ class Shiki
         array $addLines = [],
         array $deleteLines = [],
         array $focusLines = [],
+        ?string $host = null,
+        ?string $port = null,
     ): string {
-        return (new static())->highlightCode($code, $language, $theme, [
+        return (new static(
+            host: $host,
+            port: $port,
+        ))->highlightCode($code, $language, $theme, [
             'highlightLines' => $highlightLines,
             'addLines' => $addLines,
             'deleteLines' => $deleteLines,
@@ -42,7 +48,9 @@ class Shiki
     }
 
     public function __construct(
-        protected string $defaultTheme = 'nord'
+        protected string $defaultTheme = 'nord',
+        protected ?string $host = null,
+        protected ?string $port = null,
     ) {
     }
 
@@ -72,8 +80,12 @@ class Shiki
 
     protected function callShiki(...$arguments): string
     {
+        if ($this->host && $this->port) {
+            return $this->callShikiServer($arguments);
+        }
+
         $command = [
-            (new ExecutableFinder)->find('node', 'node'),
+            (new ExecutableFinder())->find('node', 'node'),
             'shiki.js',
             json_encode(array_values($arguments)),
         ];
@@ -91,5 +103,35 @@ class Shiki
         }
 
         return $process->getOutput();
+    }
+
+    protected function callShikiServer(array $arguments): mixed
+    {
+        $highlighting = !in_array($arguments[0], ['languages', 'themes']);
+
+        $ch = curl_init("{$this->host}:{$this->port}");
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
+            'command' => $highlighting
+                ? 'highlight'
+                : $arguments[0],
+            'code' => $arguments[0] ?? null,
+            'language' => $arguments[1] ?? null,
+            'theme' => $arguments[2] ?? null,
+            'options' => $arguments[3] ?? null,
+        ]));
+        $data = curl_exec($ch);
+        curl_close($ch);
+
+        if ($data === false) {
+            throw new Exception("Shiki server is not running.");
+        }
+
+        if ($highlighting) {
+            return json_decode($data, true)['html'];
+        }
+
+        return $data;
     }
 }
