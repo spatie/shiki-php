@@ -107,7 +107,7 @@ class Shiki
 
     protected function callShikiServer(array $arguments): mixed
     {
-        $highlighting = !in_array($arguments[0], ['languages', 'themes']);
+        $highlighting = ! in_array($arguments[0], ['languages', 'themes']);
 
         $ch = curl_init("{$this->host}:{$this->port}");
         curl_setopt($ch, CURLOPT_POST, true);

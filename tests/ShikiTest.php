@@ -1,8 +1,8 @@
 <?php
 
 use Spatie\ShikiPhp\Shiki;
-use Symfony\Component\Process\ExecutableFinder;
 use function Spatie\Snapshots\assertMatchesSnapshot;
+use Symfony\Component\Process\ExecutableFinder;
 
 beforeAll(function () {
     $process = new Symfony\Component\Process\Process(
