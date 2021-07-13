@@ -20,6 +20,12 @@ This package also ships with the following extra languages, on top of the [100+ 
 - Antlers
 - Blade
 
+## Usage in Laravel and league/commonmark
+
+Laravel users, can easily use Shiki via our [spatie/laravel-markdown](https://github.com/spatie/laravel-markdown) package.
+
+If you need a league/commonmark extension to highlight code, head over to [spatie/commonmark-shiki-highlighter](https://github.com/spatie/commonmark-shiki-highlighter).
+
 ## Support us
 
 [<img src="https://github-ads.s3.eu-central-1.amazonaws.com/shiki-php.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/shiki-php)
