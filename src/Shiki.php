@@ -63,8 +63,12 @@ class Shiki
         return in_array($theme, $this->getAvailableThemes());
     }
 
-    public function highlightCode(string $code, string $language, ?string $theme = null, ?array $options = []): string
-    {
+    public function highlightCode(
+        string $code,
+        string $language,
+        ?string $theme = null,
+        ?array $options = []
+    ): string {
         $theme = $theme ?? $this->defaultTheme;
 
         return $this->callShiki($code, $language, $theme, $options);
