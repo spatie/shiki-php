@@ -75,7 +75,7 @@ class Shiki
         $command = [
             (new ExecutableFinder)->find('node', 'node', [
                 '/usr/local/bin',
-                '/opt/homebrew/bin/node',
+                '/opt/homebrew/bin',
             ]),
             'shiki.js',
             json_encode(array_values($arguments)),
