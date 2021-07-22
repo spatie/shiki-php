@@ -20,6 +20,12 @@ This package also ships with the following extra languages, on top of the [100+ 
 - Antlers
 - Blade
 
+## Usage in Laravel and league/commonmark
+
+Laravel users can easily use Shiki via our [spatie/laravel-markdown](https://github.com/spatie/laravel-markdown) package.
+
+If you need a league/commonmark extension to highlight code, head over to [spatie/commonmark-shiki-highlighter](https://github.com/spatie/commonmark-shiki-highlighter).
+
 ## Support us
 
 [<img src="https://github-ads.s3.eu-central-1.amazonaws.com/shiki-php.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/shiki-php)
@@ -174,7 +180,8 @@ Please review [our security policy](../../security/policy) on how to report secu
 - [Freek Van der Herten](https://github.com/freekmurze)
 - [All Contributors](../../contributors)
 
-The Blade syntax highlighting source is taken from [this repo](https://github.com/onecentlin/laravel-blade-snippets-vscode/blob/master/syntaxes/blade.tmLanguage.json).
+The Blade syntax highlighting source is taken from [this repo](https://github.com/onecentlin/laravel-blade-snippets-vscode/blob/master/syntaxes/blade.tmLanguage.json).  
+The Antlers syntax highlighting source is taken from [this repo](https://github.com/Stillat/vscode-antlers-language-server/blob/main/client/syntaxes/antlers.json).
 
 ## Alternatives
 
