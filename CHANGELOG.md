@@ -2,6 +2,10 @@
 
 All notable changes to `shiki-php` will be documented in this file.
 
+## 1.1.7 - 2021-07-22
+
+- fix Node path
+
 ## 1.1.6 - 2021-07-22
 
 - add common locations to look for node
