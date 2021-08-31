@@ -3,7 +3,7 @@
 use Spatie\ShikiPhp\Shiki;
 use function Spatie\Snapshots\assertMatchesSnapshot;
 
-test('it can highlight php', function () {
+it('can highlight php', function () {
     $code = '<?php echo "Hello World"; ?>';
 
     $highlightedCode = Shiki::highlight($code);
@@ -11,7 +11,7 @@ test('it can highlight php', function () {
     assertMatchesSnapshot($highlightedCode);
 });
 
-test('it can highlight blade', function () {
+it('can highlight blade', function () {
     $code = '@if(true) {{ "Hello world" }} @endif';
 
     $highlightedCode = Shiki::highlight($code, language: 'blade');
@@ -19,7 +19,7 @@ test('it can highlight blade', function () {
     assertMatchesSnapshot($highlightedCode);
 });
 
-test('it can highlight blade with html inside', function () {
+it('can highlight blade with html inside', function () {
     $code = <<<blade
     @if(\$foo)
         <p>{{ "Hello world" }}</p>
@@ -31,7 +31,7 @@ test('it can highlight blade with html inside', function () {
     assertMatchesSnapshot($highlightedCode);
 });
 
-test('it can highlight antlers', function () {
+it('can highlight antlers', function () {
     $code = '{{ if }} Hi there {{ /if }}';
 
     $highlightedCode = Shiki::highlight($code, language: 'antlers');
@@ -39,7 +39,7 @@ test('it can highlight antlers', function () {
     assertMatchesSnapshot($highlightedCode);
 });
 
-test('it can render for a specific language', function () {
+it('can render for a specific language', function () {
     $code = 'console.log("Hello world")';
 
     $highlightedCode = Shiki::highlight($code, 'js');
@@ -47,7 +47,7 @@ test('it can render for a specific language', function () {
     assertMatchesSnapshot($highlightedCode);
 });
 
-test('it can mark lines as highlighted', function () {
+it('can mark lines as highlighted', function () {
     $code = '<?php echo "Hello World"; ?>';
 
     $highlightedCode = Shiki::highlight($code, highlightLines: [1]);
@@ -55,7 +55,7 @@ test('it can mark lines as highlighted', function () {
     assertMatchesSnapshot($highlightedCode);
 });
 
-test('it can mark multiple lines as highlighted', function () {
+it('can mark multiple lines as highlighted', function () {
     $code = "
         <?php\n
         echo 'Hello World';\n
@@ -67,7 +67,7 @@ test('it can mark multiple lines as highlighted', function () {
     assertMatchesSnapshot($highlightedCode);
 });
 
-test('it can mark lines as added', function () {
+it('can mark lines as added', function () {
     $code = '<?php echo "Hello World"; ?>';
 
     $highlightedCode = Shiki::highlight($code, addLines: [1]);
@@ -75,7 +75,7 @@ test('it can mark lines as added', function () {
     assertMatchesSnapshot($highlightedCode);
 });
 
-test('it can mark lines as deleted', function () {
+it('can mark lines as deleted', function () {
     $code = '<?php echo "Hello World"; ?>';
 
     $highlightedCode = Shiki::highlight($code, deleteLines: [1]);
@@ -83,7 +83,7 @@ test('it can mark lines as deleted', function () {
     assertMatchesSnapshot($highlightedCode);
 });
 
-test('it can mark lines as focus', function () {
+it('can mark lines as focus', function () {
     $code = '<?php echo "Hello World"; ?>';
 
     $highlightedCode = Shiki::highlight($code, focusLines: [1]);
@@ -91,7 +91,7 @@ test('it can mark lines as focus', function () {
     assertMatchesSnapshot($highlightedCode);
 });
 
-test('it can receive a custom theme', function () {
+it('can receive a custom theme', function () {
     $code = '<?php echo "Hello World"; ?>';
 
     $highlightedCode = Shiki::highlight(
@@ -102,7 +102,7 @@ test('it can receive a custom theme', function () {
     assertMatchesSnapshot($highlightedCode);
 });
 
-test('it can accept different themes', function () {
+it('can accept different themes', function () {
     $code = '<?php echo "Hello World"; ?>';
 
     $highlightedCode = Shiki::highlight($code, theme: 'github-light');
@@ -110,38 +110,38 @@ test('it can accept different themes', function () {
     assertMatchesSnapshot($highlightedCode);
 });
 
-test('it throws on invalid theme', function () {
+it('throws on invalid theme', function () {
     $code = '<?php echo "Hello World"; ?>';
 
     Shiki::highlight($code, theme: 'invalid-theme');
 })->throws(Exception::class);
 
-test('it throws on invalid language', function () {
+it('throws on invalid language', function () {
     $code = '<?php echo "Hello World"; ?>';
 
     Shiki::highlight($code, language: 'invalid-language');
 })->throws(Exception::class);
 
-test('it can get all available themes', function () {
+it('can get all available themes', function () {
     $availableThemes = (new Shiki())->getAvailableThemes();
 
     expect($availableThemes)->not()->toBeEmpty();
 });
 
-test('it can get all available languages', function () {
+it('can get all available languages', function () {
     $availableLanguages = (new Shiki())->getAvailableLanguages();
 
     expect($availableLanguages)->not()->toBeEmpty();
 });
 
-test('it can determine that a theme is available', function () {
+it('can determine that a theme is available', function () {
     $shiki = (new Shiki());
 
     expect($shiki->themeIsAvailable('nord'))->toBeTrue();
     expect($shiki->themeIsAvailable('non-existing-theme'))->toBeFalse();
 });
 
-test('it can determine that a language is available', function () {
+it('can determine that a language is available', function () {
     $shiki = (new Shiki());
 
     expect($shiki->languageIsAvailable('php'))->toBeTrue();
