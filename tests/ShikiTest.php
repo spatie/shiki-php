@@ -16,10 +16,10 @@ it('can highlight blade', function () {
 
     $highlightedCode = Shiki::highlight($code, language: 'blade');
 
-    assertMatchesSnapshot($highlightedCode);
+   assertMatchesSnapshot($highlightedCode);
 });
 
-it('can highlight blade with html inside', function () {
+it('can highlight complex blade with html inside', function () {
     $code = <<<blade
     @if(\$foo)
         <p>{{ "Hello world" }}</p>
