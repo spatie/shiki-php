@@ -73,7 +73,7 @@ class Shiki
     protected function callShiki(...$arguments): string
     {
         $command = [
-            (new ExecutableFinder)->find('node', 'node', [
+            (new ExecutableFinder())->find('node', 'node', [
                 '/usr/local/bin',
                 '/opt/homebrew/bin',
             ]),
