@@ -78,7 +78,7 @@ function getLanguagePath(language)
 {
     const pathToShikiDistDirectory = path.dirname(require.resolve('shiki'));
     const pathToShikiLanguages = path.resolve(`${pathToShikiDistDirectory}/../languages`);
-    const relativeDirectory = path.relative(pathToShikiLanguages, `${__dirname}/../languages`) ;
+    const relativeDirectory = path.relative(pathToShikiLanguages, `${__dirname}/../languages`);
 
     return `${relativeDirectory}/${language}.tmLanguage.json`
 }
