@@ -8,9 +8,9 @@ use Symfony\Component\Process\Process;
 
 class Shiki
 {
-    private static ?string $customBinPath;
+    private static ?string $customBinPath = null;
 
-    public static function setCustomBinPath(string $path)
+    public static function setCustomBinPath(?string $path)
     {
         static::$customBinPath = $path;
     }
