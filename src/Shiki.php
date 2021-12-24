@@ -72,7 +72,7 @@ class Shiki
 
     protected function getWorkingDirPath(): string
     {
-        return realpath(__DIR__ . '/../bin');
+        return realpath(dirname(__DIR__) . '/bin');
     }
 
     protected function callShiki(...$arguments): string
