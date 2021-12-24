@@ -3,6 +3,13 @@
 use Spatie\ShikiPhp\Shiki;
 use function Spatie\Snapshots\assertMatchesSnapshot;
 
+beforeAll(fn() => Shiki::setCustomBinPath(null));
+
+it('can get the default workingDirPath', function () {
+    expect((new Shiki())->getWorkingDirPath())
+        ->toBeString()->toBe(dirname(__DIR__).'/bin');
+});
+
 it('can highlight php', function () {
     $code = '<?php echo "Hello World"; ?>';
 
