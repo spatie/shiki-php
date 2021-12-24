@@ -8,11 +8,11 @@ use Symfony\Component\Process\Process;
 
 class Shiki
 {
-    private static ?string $customBinPath = null;
+    private static ?string $customWorkingDirPath = null;
 
-    public static function setCustomBinPath(?string $path)
+    public static function setCustomWorkingDirPath(?string $path)
     {
-        static::$customBinPath = $path;
+        static::$customWorkingDirPath = $path;
     }
 
     public static function highlight(
@@ -79,7 +79,7 @@ class Shiki
 
     public function getWorkingDirPath(): string
     {
-        if (static::$customBinPath !== null && ($path = realpath(static::$customBinPath)) !== false) {
+        if (static::$customWorkingDirPath !== null && ($path = realpath(static::$customWorkingDirPath)) !== false) {
             return $path;
         }
         return realpath(dirname(__DIR__) . '/bin');

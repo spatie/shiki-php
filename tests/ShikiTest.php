@@ -3,7 +3,7 @@
 use Spatie\ShikiPhp\Shiki;
 use function Spatie\Snapshots\assertMatchesSnapshot;
 
-beforeAll(fn() => Shiki::setCustomBinPath(null));
+beforeAll(fn() => Shiki::setCustomWorkingDirPath(null));
 
 it('can get the default workingDirPath', function () {
     expect((new Shiki())->getWorkingDirPath())
