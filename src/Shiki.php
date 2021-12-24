@@ -77,9 +77,12 @@ class Shiki
         return $this->callShiki($code, $language, $theme, $options);
     }
 
-    protected function getWorkingDirPath(): string
+    public function getWorkingDirPath(): string
     {
-        return realpath(static::$customBinPath) ?: realpath(dirname(__DIR__) . '/bin');
+        if (static::$customBinPath !== null && ($path = realpath(static::$customBinPath)) !== false) {
+            return $path;
+        }
+        return realpath(dirname(__DIR__) . '/bin');
     }
 
     protected function callShiki(...$arguments): string
