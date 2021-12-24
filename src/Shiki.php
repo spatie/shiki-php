@@ -70,6 +70,11 @@ class Shiki
         return $this->callShiki($code, $language, $theme, $options);
     }
 
+    protected function getWorkingDirPath(): string
+    {
+        return realpath(__DIR__ . '/../bin');
+    }
+
     protected function callShiki(...$arguments): string
     {
         $command = [
@@ -83,7 +88,7 @@ class Shiki
 
         $process = new Process(
             command: $command,
-            cwd: realpath(__DIR__ . '/../bin'),
+            cwd: $this->getWorkingDirPath(),
             timeout: null,
         );
 
