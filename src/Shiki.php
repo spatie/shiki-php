@@ -8,6 +8,13 @@ use Symfony\Component\Process\Process;
 
 class Shiki
 {
+    private static ?string $customBinPath;
+
+    public static function setCustomBinPath(string $path)
+    {
+        static::$customBinPath = $path;
+    }
+
     public static function highlight(
         string $code,
         string $language = 'php',
@@ -72,7 +79,7 @@ class Shiki
 
     protected function getWorkingDirPath(): string
     {
-        return realpath(dirname(__DIR__) . '/bin');
+        return realpath(static::$customBinPath) ?: realpath(dirname(__DIR__) . '/bin');
     }
 
     protected function callShiki(...$arguments): string
