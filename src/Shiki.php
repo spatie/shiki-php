@@ -82,6 +82,7 @@ class Shiki
         if (static::$customWorkingDirPath !== null && ($path = realpath(static::$customWorkingDirPath)) !== false) {
             return $path;
         }
+
         return realpath(dirname(__DIR__) . '/bin');
     }
 
