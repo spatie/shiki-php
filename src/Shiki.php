@@ -8,6 +8,13 @@ use Symfony\Component\Process\Process;
 
 class Shiki
 {
+    private static ?string $customWorkingDirPath = null;
+
+    public static function setCustomWorkingDirPath(?string $path)
+    {
+        static::$customWorkingDirPath = $path;
+    }
+
     public static function highlight(
         string $code,
         string $language = 'php',
@@ -70,6 +77,14 @@ class Shiki
         return $this->callShiki($code, $language, $theme, $options);
     }
 
+    public function getWorkingDirPath(): string
+    {
+        if (static::$customWorkingDirPath !== null && ($path = realpath(static::$customWorkingDirPath)) !== false) {
+            return $path;
+        }
+        return realpath(dirname(__DIR__) . '/bin');
+    }
+
     protected function callShiki(...$arguments): string
     {
         $command = [
@@ -83,7 +98,7 @@ class Shiki
 
         $process = new Process(
             command: $command,
-            cwd: realpath(__DIR__ . '/../bin'),
+            cwd: $this->getWorkingDirPath(),
             timeout: null,
         );
 

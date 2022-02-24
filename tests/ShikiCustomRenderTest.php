@@ -3,9 +3,12 @@
 use Spatie\ShikiPhp\Shiki;
 use function Spatie\Snapshots\assertMatchesSnapshot;
 
-beforeAll(fn() => Shiki::setCustomWorkingDirPath(null));
+beforeEach(fn() => Shiki::setCustomWorkingDirPath(__DIR__ . '/testfiles/alt-bin'));
 
-it('can get the default workingDirPath', function () {
+it('can verify the custom CWD path and modify it', function () {
+    expect((new Shiki())->getWorkingDirPath())
+        ->toBeString()->toBe(__DIR__ . '/testfiles/alt-bin');
+    Shiki::setCustomWorkingDirPath(null);
     expect((new Shiki())->getWorkingDirPath())
         ->toBeString()->toBe(dirname(__DIR__).'/bin');
 });
