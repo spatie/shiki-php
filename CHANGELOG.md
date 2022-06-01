@@ -2,6 +2,18 @@
 
 All notable changes to `shiki-php` will be documented in this file.
 
+## 1.3.0 - 2022-06-01
+
+### What's Changed
+
+- Allow php7.4 by @jonassiewertsen in https://github.com/spatie/shiki-php/pull/14
+
+### New Contributors
+
+- @jonassiewertsen made their first contribution in https://github.com/spatie/shiki-php/pull/14
+
+**Full Changelog**: https://github.com/spatie/shiki-php/compare/1.2.0...1.3.0
+
 ## 1.2.0 - 2022-02-24
 
 ## What's Changed
