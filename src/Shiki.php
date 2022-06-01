@@ -8,6 +8,8 @@ use Symfony\Component\Process\Process;
 
 class Shiki
 {
+    protected string $defaultTheme;
+
     private static ?string $customWorkingDirPath = null;
 
     public static function setCustomWorkingDirPath(?string $path)
@@ -22,9 +24,9 @@ class Shiki
         array $highlightLines = [],
         array $addLines = [],
         array $deleteLines = [],
-        array $focusLines = [],
+        array $focusLines = []
     ): string {
-        return (new static())->highlightCode($code, $language, $theme, [
+        return (new static)->highlightCode($code, $language, $theme, [
             'highlightLines' => $highlightLines,
             'addLines' => $addLines,
             'deleteLines' => $deleteLines,
@@ -48,9 +50,9 @@ class Shiki
         return $languages;
     }
 
-    public function __construct(
-        protected string $defaultTheme = 'nord'
-    ) {
+    public function __construct(string $defaultTheme = 'nord')
+    {
+        $this->defaultTheme = $defaultTheme;
     }
 
     public function getAvailableThemes(): array
@@ -98,9 +100,9 @@ class Shiki
         ];
 
         $process = new Process(
-            command: $command,
-            cwd: $this->getWorkingDirPath(),
-            timeout: null,
+            $command,
+            $this->getWorkingDirPath(),
+            null,
         );
 
         $process->run();

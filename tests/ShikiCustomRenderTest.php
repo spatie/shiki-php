@@ -24,7 +24,7 @@ it('can highlight php', function () {
 it('can highlight blade', function () {
     $code = '@if(true) {{ "Hello world" }} @endif';
 
-    $highlightedCode = Shiki::highlight($code, language: 'blade');
+    $highlightedCode = Shiki::highlight($code, 'blade');
 
     assertMatchesSnapshot($highlightedCode);
 });
@@ -36,7 +36,7 @@ it('can highlight complex blade with html inside', function () {
     @endif
     blade;
 
-    $highlightedCode = Shiki::highlight($code, language: 'blade', theme: 'github-light');
+    $highlightedCode = Shiki::highlight($code, 'blade', 'github-light');
 
     assertMatchesSnapshot($highlightedCode);
 });
@@ -44,7 +44,7 @@ it('can highlight complex blade with html inside', function () {
 it('can highlight antlers', function () {
     $code = '{{ if }} Hi there {{ /if }}';
 
-    $highlightedCode = Shiki::highlight($code, language: 'antlers');
+    $highlightedCode = Shiki::highlight($code, 'antlers');
 
     assertMatchesSnapshot($highlightedCode);
 });
@@ -60,7 +60,7 @@ it('can render for a specific language', function () {
 it('can mark lines as highlighted', function () {
     $code = '<?php echo "Hello World"; ?>';
 
-    $highlightedCode = Shiki::highlight($code, highlightLines: [1]);
+    $highlightedCode = Shiki::highlight($code, 'php', 'nord', [1]);
 
     assertMatchesSnapshot($highlightedCode);
 });
@@ -72,7 +72,7 @@ it('can mark multiple lines as highlighted', function () {
         return null;
     ";
 
-    $highlightedCode = Shiki::highlight($code, highlightLines: ['1', '2-4']);
+    $highlightedCode = Shiki::highlight($code, 'php', 'nord', ['1', '2-4']);
 
     assertMatchesSnapshot($highlightedCode);
 });
@@ -80,7 +80,7 @@ it('can mark multiple lines as highlighted', function () {
 it('can mark lines as added', function () {
     $code = '<?php echo "Hello World"; ?>';
 
-    $highlightedCode = Shiki::highlight($code, addLines: [1]);
+    $highlightedCode = Shiki::highlight($code, 'php', 'nord', [], [1]);
 
     assertMatchesSnapshot($highlightedCode);
 });
@@ -88,7 +88,7 @@ it('can mark lines as added', function () {
 it('can mark lines as deleted', function () {
     $code = '<?php echo "Hello World"; ?>';
 
-    $highlightedCode = Shiki::highlight($code, deleteLines: [1]);
+    $highlightedCode = Shiki::highlight($code, 'php', 'nord', [], [], [1]);
 
     assertMatchesSnapshot($highlightedCode);
 });
@@ -96,7 +96,7 @@ it('can mark lines as deleted', function () {
 it('can mark lines as focus', function () {
     $code = '<?php echo "Hello World"; ?>';
 
-    $highlightedCode = Shiki::highlight($code, focusLines: [1]);
+    $highlightedCode = Shiki::highlight($code, 'php', 'nord', [], [], [], [1]);
 
     assertMatchesSnapshot($highlightedCode);
 });
@@ -104,10 +104,7 @@ it('can mark lines as focus', function () {
 it('can receive a custom theme', function () {
     $code = '<?php echo "Hello World"; ?>';
 
-    $highlightedCode = Shiki::highlight(
-        $code,
-        theme: __DIR__ . '/testfiles/ayu-light.json'
-    );
+    $highlightedCode = Shiki::highlight($code, 'php', __DIR__ . '/testfiles/ayu-light.json');
 
     assertMatchesSnapshot($highlightedCode);
 });
@@ -115,7 +112,7 @@ it('can receive a custom theme', function () {
 it('can accept different themes', function () {
     $code = '<?php echo "Hello World"; ?>';
 
-    $highlightedCode = Shiki::highlight($code, theme: 'github-light');
+    $highlightedCode = Shiki::highlight($code, 'php', 'github-light');
 
     assertMatchesSnapshot($highlightedCode);
 });
@@ -123,13 +120,13 @@ it('can accept different themes', function () {
 it('throws on invalid theme', function () {
     $code = '<?php echo "Hello World"; ?>';
 
-    Shiki::highlight($code, theme: 'invalid-theme');
+    Shiki::highlight($code, 'php', 'invalid-theme');
 })->throws(Exception::class);
 
 it('throws on invalid language', function () {
     $code = '<?php echo "Hello World"; ?>';
 
-    Shiki::highlight($code, language: 'invalid-language');
+    Shiki::highlight($code, 'invalid-language');
 })->throws(Exception::class);
 
 it('can get all available themes', function () {
