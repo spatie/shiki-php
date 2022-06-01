@@ -26,7 +26,7 @@ class Shiki
         array $deleteLines = [],
         array $focusLines = []
     ): string {
-        return (new static)->highlightCode($code, $language, $theme, [
+        return (new static())->highlightCode($code, $language, $theme, [
             'highlightLines' => $highlightLines,
             'addLines' => $addLines,
             'deleteLines' => $deleteLines,
