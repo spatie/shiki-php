@@ -19,18 +19,21 @@ class Shiki
 
     public static function highlight(
         string $code,
-        string $language = 'php',
-        string $theme = 'nord',
-        array $highlightLines = [],
-        array $addLines = [],
-        array $deleteLines = [],
-        array $focusLines = []
+        ?string $language = null,
+        ?string $theme = null,
+        ?array $highlightLines = null,
+        ?array $addLines = null,
+        ?array $deleteLines = null,
+        ?array $focusLines = null
     ): string {
+        $language = $language ?? 'php';
+        $theme = $theme ?? 'nord';
+
         return (new static)->highlightCode($code, $language, $theme, [
-            'highlightLines' => $highlightLines,
-            'addLines' => $addLines,
-            'deleteLines' => $deleteLines,
-            'focusLines' => $focusLines,
+            'highlightLines' => $highlightLines ?? [],
+            'addLines' => $addLines ?? [],
+            'deleteLines' => $deleteLines ?? [],
+            'focusLines' => $focusLines ?? [],
         ]);
     }
 

@@ -57,7 +57,7 @@ it('can render for a specific language', function () {
 it('can mark lines as highlighted', function () {
     $code = '<?php echo "Hello World"; ?>';
 
-    $highlightedCode = Shiki::highlight($code, 'php', 'nord', [1]);
+    $highlightedCode = Shiki::highlight($code, null, null, [1]);
 
     assertMatchesSnapshot($highlightedCode);
 });
@@ -69,7 +69,7 @@ it('can mark multiple lines as highlighted', function () {
         return null;
     ";
 
-    $highlightedCode = Shiki::highlight($code, 'php', 'nord', ['1', '2-4']);
+    $highlightedCode = Shiki::highlight($code, null, null, ['1', '2-4']);
 
     assertMatchesSnapshot($highlightedCode);
 });
@@ -77,7 +77,7 @@ it('can mark multiple lines as highlighted', function () {
 it('can mark lines as added', function () {
     $code = '<?php echo "Hello World"; ?>';
 
-    $highlightedCode = Shiki::highlight($code, 'php', 'nord', [], [1]);
+    $highlightedCode = Shiki::highlight($code, null, null, null, [1]);
 
     assertMatchesSnapshot($highlightedCode);
 });
@@ -85,7 +85,7 @@ it('can mark lines as added', function () {
 it('can mark lines as deleted', function () {
     $code = '<?php echo "Hello World"; ?>';
 
-    $highlightedCode = Shiki::highlight($code, 'php', 'nord', [], [], [1]);
+    $highlightedCode = Shiki::highlight($code, 'php', null, null, null, [1]);
 
     assertMatchesSnapshot($highlightedCode);
 });
@@ -93,7 +93,7 @@ it('can mark lines as deleted', function () {
 it('can mark lines as focus', function () {
     $code = '<?php echo "Hello World"; ?>';
 
-    $highlightedCode = Shiki::highlight($code, 'php', 'nord', [], [], [], [1]);
+    $highlightedCode = Shiki::highlight($code, 'php', null, null, null, null, [1]);
 
     assertMatchesSnapshot($highlightedCode);
 });
@@ -101,7 +101,7 @@ it('can mark lines as focus', function () {
 it('can receive a custom theme', function () {
     $code = '<?php echo "Hello World"; ?>';
 
-    $highlightedCode = Shiki::highlight($code, 'php', __DIR__ . '/testfiles/ayu-light.json');
+    $highlightedCode = Shiki::highlight($code, null, __DIR__ . '/testfiles/ayu-light.json');
 
     assertMatchesSnapshot($highlightedCode);
 });
@@ -109,7 +109,7 @@ it('can receive a custom theme', function () {
 it('can accept different themes', function () {
     $code = '<?php echo "Hello World"; ?>';
 
-    $highlightedCode = Shiki::highlight($code, 'php', 'github-light');
+    $highlightedCode = Shiki::highlight($code, null, 'github-light');
 
     assertMatchesSnapshot($highlightedCode);
 });
