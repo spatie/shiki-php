@@ -150,6 +150,7 @@ Shiki::highlight(
     null,
     [1],
 );
+```
 
 ## Determining available languages
 
