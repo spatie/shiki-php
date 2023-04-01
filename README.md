@@ -45,7 +45,9 @@ You can install the package via composer:
 composer require spatie/shiki-php
 ```
 
-In your project, you should have the JavaScript package [`shiki`](https://github.com/shikijs/shiki) installed. You can install it via npm...
+In your project, you must have the JavaScript package [`shiki`](https://github.com/shikijs/shiki) installed, otherwise the `<pre>` element will not be present in the output. 
+
+You can install it via npm
 
 ```bash
 npm install shiki
