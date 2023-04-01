@@ -1,6 +1,7 @@
 <?php
 
 use Spatie\ShikiPhp\Shiki;
+
 use function Spatie\Snapshots\assertMatchesSnapshot;
 
 beforeEach(fn () => Shiki::setCustomWorkingDirPath(__DIR__ . '/testfiles/alt-bin'));
