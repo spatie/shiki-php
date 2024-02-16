@@ -93,10 +93,12 @@ class Shiki
 
     protected function callShiki(...$arguments): string
     {
+        $home = getenv("HOME");
         $command = [
             (new ExecutableFinder())->find('node', 'node', [
                 '/usr/local/bin',
                 '/opt/homebrew/bin',
+                $home . '/n/bin', // support https://github.com/tj/n
             ]),
             'shiki.js',
             json_encode(array_values($arguments)),
