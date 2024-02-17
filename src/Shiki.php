@@ -41,12 +41,7 @@ class Shiki
     {
         $shikiResult = $this->callShiki('languages');
 
-        $languageProperties = json_decode($shikiResult, true);
-
-        $languages = array_map(
-            fn ($properties) => $properties['id'],
-            $languageProperties
-        );
+        $languages = json_decode($shikiResult, true);
 
         sort($languages);
 
@@ -110,7 +105,7 @@ class Shiki
 
         $process->run();
 
-        if (! $process->isSuccessful()) {
+        if (!$process->isSuccessful()) {
             throw new ProcessFailedException($process);
         }
 

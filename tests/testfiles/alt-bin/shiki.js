@@ -1,84 +1,83 @@
-const shiki = require('shiki');
 const fs = require('fs');
 const path = require('path');
 const renderer = require('./renderer');
+const args = JSON.parse(process.argv.slice(2));
 
-const arguments = JSON.parse(process.argv.slice(2));
-
-const customLanguages = [
-    {
-        id: 'antlers',
+const customLanguages = {
+    antlers: {
         scopeName: 'text.html.statamic',
-        path: getLanguagePath('antlers'),
         embeddedLangs: ['html'],
     },
-    {
-        id: 'blade',
+    blade: {
         scopeName: 'text.html.php.blade',
-        path: getLanguagePath('blade'),
         embeddedLangs: ['html', 'php'],
     },
-];
+};
 
-if (arguments[0] === 'themes') {
-    process.stdout.write(JSON.stringify(shiki.BUNDLED_THEMES));
-    return;
-}
+async function main(args) {
+    const shiki = await import('shiki');
+    const highlighter = await shiki.getHighlighter({});
 
-let allLanguages = shiki.BUNDLED_LANGUAGES;
-allLanguages.push(...customLanguages);
+    for (const [lang, spec] of Object.entries(customLanguages)) {
+        for (const embedded of spec.embeddedLangs) {
+            await highlighter.loadLanguage(embedded);
+        }
 
-if (arguments[0] === 'languages') {
-    process.stdout.write(JSON.stringify(allLanguages));
-    return;
-}
+        await highlighter.loadLanguage({ ...spec, ...loadLanguage(lang), name: lang });
+    }
 
-const language = arguments[1] || 'php';
-let theme = arguments[2] || 'nord';
+    const language = args[1] || 'php';
+    let theme = args[2] || 'nord';
 
-const languagesToLoad = allLanguages.filter(lang => lang.id === language || (lang.aliases && lang.aliases.includes(language)));
+    if (fs.existsSync(theme)) {
+        theme = JSON.parse(fs.readFileSync(theme, 'utf-8'));
+    } else {
+        await highlighter.loadTheme(theme);
+    }
 
-(function loadEmbeddedLangsRecursively() {
-    languagesToLoad.forEach(function (language) {
-        const embeddedLangs = language.embeddedLangs || [];
-        embeddedLangs.forEach(function (languageKey) {
-            if (languagesToLoad.find(lang => lang.id === languageKey || (lang.aliases && lang.aliases.includes(languageKey)))) {
-                return;
-            }
+    if (!customLanguages[language]) await highlighter.loadLanguage(language);
 
-            languagesToLoad.push(allLanguages.find(lang => lang.id === languageKey || (lang.aliases && lang.aliases.includes(languageKey))));
-            loadEmbeddedLangsRecursively();
-        });
+    if (args[0] === 'languages') {
+        process.stdout.write(JSON.stringify(highlighter.getLoadedLanguages()));
+        return;
+    }
+
+    if (args[0] === 'themes') {
+        process.stdout.write(JSON.stringify(highlighter.getLoadedThemes()));
+        return;
+    }
+
+    const { theme: theme$ } = highlighter.setTheme(theme)
+
+    const result = highlighter.codeToTokens(args[0], {
+        theme: theme$,
+        lang: language,
     });
-})();
 
-if (fs.existsSync(theme)) {
-    theme = JSON.parse(fs.readFileSync(theme, 'utf-8'));
-}
+    const options = args[3] || {};
 
-shiki.getHighlighter({
-    theme,
-    langs: languagesToLoad,
-}).then((highlighter) => {
-    const tokens = highlighter.codeToThemedTokens(arguments[0], language);
-    const theme = highlighter.getTheme();
-    const options = arguments[3] || {};
-
-    process.stdout.write(renderer.renderToHtml(tokens, {
-        fg: theme.fg,
-        bg: theme.bg,
+    const rendered = renderer.renderToHtml(result.tokens, {
+        fg: theme$.fg,
+        bg: theme$.bg,
         highlightLines: options.highlightLines,
         addLines: options.addLines,
         deleteLines: options.deleteLines,
         focusLines: options.focusLines,
-    }));
-});
+    });
 
-function getLanguagePath(language)
-{
-    const pathToShikiDistDirectory = path.dirname(require.resolve('shiki'));
-    const pathToShikiLanguages = path.resolve(`${pathToShikiDistDirectory}/../languages`);
-    const relativeDirectory = path.relative(pathToShikiLanguages, `${__dirname}/../../../languages`);
+    process.stdout.write(rendered);
+}
 
-    return `${relativeDirectory}/${language}.tmLanguage.json`
+main(args)
+
+function loadLanguage(language) {
+    const path = getLanguagePath(language);
+    const content = fs.readFileSync(path);
+
+    return JSON.parse(content);
+}
+function getLanguagePath(language) {
+    const url = path.join(__dirname, '..', '..', '..', 'languages', `${language}.tmLanguage.json`);
+
+    return path.normalize(url);
 }
