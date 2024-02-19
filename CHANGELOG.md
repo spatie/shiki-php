@@ -2,6 +2,30 @@
 
 All notable changes to `shiki-php` will be documented in this file.
 
+## 2.0.0 - 2024-02-19
+
+### Upgrading
+
+- The `getAvailableLanguages`, `getAvailableThemes`, `languageIsAvailable` and `themeIsAvailable` methods have been removed. These are no longer necessary as Shiki 1.0 lazy loads these when necessary.
+
+#### What's Changed
+
+* feat: upgrade support to shiki v1 by @heywhy in https://github.com/spatie/shiki-php/pull/21
+* Close code block by @mxsgx in https://github.com/spatie/shiki-php/pull/15
+* Update README.md by @joshbruce in https://github.com/spatie/shiki-php/pull/17
+* Fix badges by @erikn69 in https://github.com/spatie/shiki-php/pull/18
+* feat: support tj/n by @axelrindle in https://github.com/spatie/shiki-php/pull/20
+
+#### New Contributors
+
+* @mxsgx made their first contribution in https://github.com/spatie/shiki-php/pull/15
+* @joshbruce made their first contribution in https://github.com/spatie/shiki-php/pull/17
+* @erikn69 made their first contribution in https://github.com/spatie/shiki-php/pull/18
+* @axelrindle made their first contribution in https://github.com/spatie/shiki-php/pull/20
+* @heywhy made their first contribution in https://github.com/spatie/shiki-php/pull/21
+
+**Full Changelog**: https://github.com/spatie/shiki-php/compare/1.3.0...2.0.0
+
 ## 1.3.0 - 2022-06-01
 
 ### What's Changed
