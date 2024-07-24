@@ -37,6 +37,16 @@ async function main(args) {
 
     if (!customLanguages[language]) await highlighter.loadLanguage(language);
 
+    if (args[0] === 'languages') {
+        process.stdout.write(JSON.stringify(highlighter.getLoadedLanguages()));
+        return;
+    }
+
+    if (args[0] === 'themes') {
+        process.stdout.write(JSON.stringify(highlighter.getLoadedThemes()));
+        return;
+    }
+
     const { theme: theme$ } = highlighter.setTheme(theme)
 
     const result = highlighter.codeToTokens(args[0], {
