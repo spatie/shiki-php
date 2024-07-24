@@ -58,7 +58,7 @@ async function main(args) {
     }
 
     if (args[0] === 'themes') {
-        process.stdout.write(JSON.stringify(highlighter.getLoadedThemes()));
+        process.stdout.write(JSON.stringify(Object.keys(shiki.bundledThemes)));
         return;
     }
 
