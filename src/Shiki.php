@@ -62,7 +62,11 @@ class Shiki
 
     public function languageIsAvailable(string $language): bool
     {
-        return in_array($language, $this->getAvailableLanguages());
+        $shikiResult = $this->callShiki('aliases');
+
+        $aliases = json_decode($shikiResult, true);
+
+        return in_array($language, $aliases);
     }
 
     public function themeIsAvailable(string $theme): bool

@@ -137,6 +137,9 @@ it('can get all available languages', function () {
     $availableLanguages = (new Shiki())->getAvailableLanguages();
 
     expect($availableLanguages)->not()->toBeEmpty();
+    expect($availableLanguages)->toContain('javascript');
+    // should not include aliases
+    expect($availableLanguages)->not()->toContain('js');
 });
 
 it('can determine that a theme is available', function () {
@@ -151,4 +154,7 @@ it('can determine that a language is available', function () {
 
     expect($shiki->languageIsAvailable('php'))->toBeTrue();
     expect($shiki->languageIsAvailable('non-existing-language'))->toBeFalse();
+    expect($shiki->languageIsAvailable('javascript'))->toBeTrue();
+    // should match aliases
+    expect($shiki->languageIsAvailable('js'))->toBeTrue();
 });
