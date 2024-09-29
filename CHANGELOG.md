@@ -2,6 +2,20 @@
 
 All notable changes to `shiki-php` will be documented in this file.
 
+## 2.1.0 - 2024-09-29
+
+### What's Changed
+
+* Allow running in vanilla PHP projects by @timacdonald in https://github.com/spatie/shiki-php/pull/25
+* Re-add `getAvailableLanguages`, `getAvailableThemes`, `languageIsAvailable` and `themeIsAvailable` by @s3ththompson in https://github.com/spatie/shiki-php/pull/23
+
+### New Contributors
+
+* @timacdonald made their first contribution in https://github.com/spatie/shiki-php/pull/25
+* @s3ththompson made their first contribution in https://github.com/spatie/shiki-php/pull/23
+
+**Full Changelog**: https://github.com/spatie/shiki-php/compare/2.0.0...2.1.0
+
 ## 2.0.0 - 2024-02-19
 
 ### Upgrading
