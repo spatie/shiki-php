@@ -38,12 +38,27 @@ async function main(args) {
     if (!customLanguages[language]) await highlighter.loadLanguage(language);
 
     if (args[0] === 'languages') {
-        process.stdout.write(JSON.stringify(highlighter.getLoadedLanguages()));
+        process.stdout.write(
+            JSON.stringify([
+                ...Object.keys(shiki.bundledLanguagesBase),
+                ...Object.keys(customLanguages),
+            ])
+        );
+        return;
+    }
+
+    if (args[0] === 'aliases') {
+        process.stdout.write(
+            JSON.stringify([
+                ...Object.keys(shiki.bundledLanguages),
+                ...Object.keys(customLanguages),
+            ])
+        );
         return;
     }
 
     if (args[0] === 'themes') {
-        process.stdout.write(JSON.stringify(highlighter.getLoadedThemes()));
+        process.stdout.write(JSON.stringify(Object.keys(shiki.bundledThemes)));
         return;
     }
 

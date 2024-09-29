@@ -37,6 +37,31 @@ async function main(args) {
 
     if (!customLanguages[language]) await highlighter.loadLanguage(language);
 
+    if (args[0] === 'languages') {
+        process.stdout.write(
+            JSON.stringify([
+                ...Object.keys(shiki.bundledLanguagesBase),
+                ...Object.keys(customLanguages),
+            ])
+        );
+        return;
+    }
+
+    if (args[0] === 'aliases') {
+        process.stdout.write(
+            JSON.stringify([
+                ...Object.keys(shiki.bundledLanguages),
+                ...Object.keys(customLanguages),
+            ])
+        );
+        return;
+    }
+
+    if (args[0] === 'themes') {
+        process.stdout.write(JSON.stringify(Object.keys(shiki.bundledThemes)));
+        return;
+    }
+
     const { theme: theme$ } = highlighter.setTheme(theme)
 
     const result = highlighter.codeToTokens(args[0], {

@@ -129,3 +129,35 @@ it('throws on invalid language', function () {
 
     Shiki::highlight($code, 'invalid-language');
 })->throws(Exception::class);
+
+it('can get all available themes', function () {
+    $availableThemes = (new Shiki())->getAvailableThemes();
+
+    expect($availableThemes)->not()->toBeEmpty();
+});
+
+it('can get all available languages', function () {
+    $availableLanguages = (new Shiki())->getAvailableLanguages();
+
+    expect($availableLanguages)->not()->toBeEmpty();
+    expect($availableLanguages)->toContain('javascript');
+    // should not include aliases
+    expect($availableLanguages)->not()->toContain('js');
+});
+
+it('can determine that a theme is available', function () {
+    $shiki = (new Shiki());
+
+    expect($shiki->themeIsAvailable('nord'))->toBeTrue();
+    expect($shiki->themeIsAvailable('non-existing-theme'))->toBeFalse();
+});
+
+it('can determine that a language is available', function () {
+    $shiki = (new Shiki());
+
+    expect($shiki->languageIsAvailable('php'))->toBeTrue();
+    expect($shiki->languageIsAvailable('non-existing-language'))->toBeFalse();
+    expect($shiki->languageIsAvailable('javascript'))->toBeTrue();
+    // should match aliases
+    expect($shiki->languageIsAvailable('js'))->toBeTrue();
+});

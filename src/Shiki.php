@@ -37,9 +37,41 @@ class Shiki
         ]);
     }
 
+    public function getAvailableLanguages(): array
+    {
+        $shikiResult = $this->callShiki('languages');
+
+        $languages = json_decode($shikiResult, true);
+
+        sort($languages);
+
+        return $languages;
+    }
+
     public function __construct(string $defaultTheme = 'nord')
     {
         $this->defaultTheme = $defaultTheme;
+    }
+
+    public function getAvailableThemes(): array
+    {
+        $shikiResult = $this->callShiki('themes');
+
+        return json_decode($shikiResult, true);
+    }
+
+    public function languageIsAvailable(string $language): bool
+    {
+        $shikiResult = $this->callShiki('aliases');
+
+        $aliases = json_decode($shikiResult, true);
+
+        return in_array($language, $aliases);
+    }
+
+    public function themeIsAvailable(string $theme): bool
+    {
+        return in_array($theme, $this->getAvailableThemes());
     }
 
     public function highlightCode(string $code, string $language, ?string $theme = null, ?array $options = []): string
