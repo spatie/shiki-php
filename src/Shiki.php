@@ -8,7 +8,10 @@ use Symfony\Component\Process\Process;
 
 class Shiki
 {
-    protected string $defaultTheme;
+    /**
+     * @var string|array<string, string>|null $defaultTheme Can be a single theme or an array with a light and a dark theme.
+     */
+    protected mixed $defaultTheme;
 
     private static ?string $customWorkingDirPath = null;
 
@@ -51,7 +54,10 @@ class Shiki
         return $languages;
     }
 
-    public function __construct(string $defaultTheme = 'nord')
+    /**
+     * @param string|array<string, string>|null $defaultTheme Can be a single theme or an array with a light and a dark theme.
+     */
+    public function __construct(mixed $defaultTheme = 'nord')
     {
         $this->defaultTheme = $defaultTheme;
     }

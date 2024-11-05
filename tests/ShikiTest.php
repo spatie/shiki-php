@@ -4,11 +4,34 @@ use Spatie\ShikiPhp\Shiki;
 
 use function Spatie\Snapshots\assertMatchesSnapshot;
 
-beforeAll(fn () => Shiki::setCustomWorkingDirPath(null));
+beforeAll(fn() => Shiki::setCustomWorkingDirPath(null));
 
 it('can get the default workingDirPath', function () {
     expect((new Shiki())->getWorkingDirPath())
         ->toBeString()->toBe(dirname(__DIR__) . '/bin');
+});
+
+it('can accept a single theme', function () {
+    $code = '<?php echo "Hello World"; ?>';
+
+    $highlighter = new Shiki('github-light');
+
+    $highlightedCode = $highlighter->highlightCode($code, 'php');
+
+    assertMatchesSnapshot($highlightedCode);
+});
+
+it('can accept a light and a dark theme', function () {
+    $code = '<?php echo "Hello World"; ?>';
+
+    $highlighter = new Shiki([
+        'light' => 'github-light',
+        'dark' => 'github-dark',
+    ]);
+
+    $highlightedCode = $highlighter->highlightCode($code, 'php');
+
+    assertMatchesSnapshot($highlightedCode);
 });
 
 it('can highlight php', function () {
