@@ -96,15 +96,27 @@ const renderToHtml = function (lines, options = {}) {
         l.forEach((token) => {
             const cssDeclarations = [];
             if (theme) {
-                cssDeclarations.push(`color: ${token.color || theme.theme.fg}`);
+                cssDeclarations.push(`color:${token.color || theme.theme.fg}`);
             } else if (themes) {
-                cssDeclarations.push(token.htmlStyle);
+                /**
+                 * The `htmlStyle` property can be a `string` or an `object`. The `string` representation is deprecated.
+                 * @see https://github.com/search?q=repo%3Ashikijs%2Fshiki+htmlStyle&type=code
+                 */
+                if (typeof token.htmlStyle === "string") {
+                    cssDeclarations.push(token.htmlStyle);
+                } else if (typeof token.htmlStyle === "object") {
+                    for (const [key, value] of Object.entries(
+                        token.htmlStyle
+                    )) {
+                        cssDeclarations.push(`${key}:${value}`);
+                    }
+                }
             }
 
             if (token.fontStyle > FontStyle.None) {
                 cssDeclarations.push(FONT_STYLE_TO_CSS[token.fontStyle]);
             }
-            html += `<span style="${cssDeclarations.join("; ")}">${escapeHtml(
+            html += `<span style="${cssDeclarations.join(";")}">${escapeHtml(
                 token.content
             )}</span>`;
         });
