@@ -9,7 +9,7 @@ use Symfony\Component\Process\Process;
 class Shiki
 {
     /**
-     * @var string|array<string, string>|null $defaultTheme Can be a single theme or an array with a light and a dark theme.
+     * @var string|array<string, string> $defaultTheme Can be a single theme or an array with a light and a dark theme.
      */
     protected mixed $defaultTheme;
 
@@ -55,7 +55,7 @@ class Shiki
     }
 
     /**
-     * @param string|array<string, string>|null $defaultTheme Can be a single theme or an array with a light and a dark theme.
+     * @param string|array<string, string> $defaultTheme Can be a single theme or an array with a light and a dark theme.
      */
     public function __construct(mixed $defaultTheme = 'nord')
     {
