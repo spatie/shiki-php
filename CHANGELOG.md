@@ -2,6 +2,14 @@
 
 All notable changes to `shiki-php` will be documented in this file.
 
+## 2.2.1 - 2024-11-05
+
+### What's Changed
+
+* fix: create shiki with dual themes by @Barbapapazes in https://github.com/spatie/shiki-php/pull/27
+
+**Full Changelog**: https://github.com/spatie/shiki-php/compare/2.2.0...2.2.1
+
 ## 2.2.0 - 2024-11-05
 
 ### What's Changed
