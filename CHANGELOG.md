@@ -2,6 +2,18 @@
 
 All notable changes to `shiki-php` will be documented in this file.
 
+## 2.2.0 - 2024-11-05
+
+### What's Changed
+
+* feat: support (at least) dual themes by @Barbapapazes in https://github.com/spatie/shiki-php/pull/26
+
+### New Contributors
+
+* @Barbapapazes made their first contribution in https://github.com/spatie/shiki-php/pull/26
+
+**Full Changelog**: https://github.com/spatie/shiki-php/compare/2.1.0...2.2.0
+
 ## 2.1.0 - 2024-09-29
 
 ### What's Changed
