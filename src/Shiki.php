@@ -17,10 +17,13 @@ class Shiki
         static::$customWorkingDirPath = $path;
     }
 
+    /**
+     * @param string|array<string, string>|null $theme Can be a single theme or an array with a light and a dark theme.
+     */
     public static function highlight(
         string $code,
         ?string $language = null,
-        ?string $theme = null,
+        mixed $theme = null,
         ?array $highlightLines = null,
         ?array $addLines = null,
         ?array $deleteLines = null,
@@ -74,7 +77,7 @@ class Shiki
         return in_array($theme, $this->getAvailableThemes());
     }
 
-    public function highlightCode(string $code, string $language, ?string $theme = null, ?array $options = []): string
+    public function highlightCode(string $code, string $language, mixed $theme = null, ?array $options = []): string
     {
         $theme = $theme ?? $this->defaultTheme;
 
