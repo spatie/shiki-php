@@ -3,89 +3,131 @@ const FontStyle = {
     None: 0,
     Italic: 1,
     Bold: 2,
-    Underline: 4
-}
+    Underline: 4,
+};
 
 const FONT_STYLE_TO_CSS = {
-    [FontStyle.Italic]: 'font-style: italic',
-    [FontStyle.Bold]: 'font-weight: bold',
-    [FontStyle.Underline]: 'text-decoration: underline'
-}
+    [FontStyle.Italic]: "font-style: italic",
+    [FontStyle.Bold]: "font-weight: bold",
+    [FontStyle.Underline]: "text-decoration: underline",
+};
 
-const renderToHtml = function(lines, options = {}) {
-    const bg = options.bg || '#fff'
+const renderToHtml = function (lines, options = {}) {
+    const theme = options.theme;
+    const themes = options.themes;
     const highlightedLines = makeHighlightSet(options.highlightLines);
     const addLines = makeHighlightSet(options.addLines);
     const deleteLines = makeHighlightSet(options.deleteLines);
     const focusLines = makeHighlightSet(options.focusLines);
 
-    let className = 'shiki';
+    let className = "shiki";
 
     if (highlightedLines.size) {
-        className += ' highlighted'
+        className += " highlighted";
     }
     if (addLines.size) {
-        className += ' added'
+        className += " added";
     }
     if (deleteLines.size) {
-        className += ' deleted'
+        className += " deleted";
     }
     if (focusLines.size) {
-        className += ' focus'
+        className += " focus";
     }
 
-    let html = ''
+    let html = "";
 
-    html += `<pre class="${className}" style="background-color: ${bg}">`
+    if (theme) {
+        html += `<pre class="${className}" style="background-color: ${theme.theme.bg}">`;
+    } else if (themes) {
+        const backgroundStyles = Object.entries(themes).map(
+            ([theme, theme$]) => {
+                if (theme === "light") {
+                    return `background-color:${theme$.theme.bg};`;
+                }
+
+                return `--shiki-${theme}-bg:${theme$.theme.bg};`;
+            }
+        );
+
+        const foregroundStyles = Object.entries(themes).map(
+            ([theme, theme$]) => {
+                if (theme === "light") {
+                    return `color:${theme$.theme.fg};`;
+                }
+
+                return `--shiki-${theme}:${theme$.theme.fg};`;
+            }
+        );
+
+        const classes = `${className} shiki-themes ${Object.values(themes)
+            .map((theme) => theme.theme.name)
+            .join(" ")}`;
+
+        html += `<pre class="${classes}" style="${backgroundStyles.join(
+            ""
+        )}${foregroundStyles.join("")}">`;
+    }
+
     if (options.langId) {
-        html += `<div class="language-id">${options.langId}</div>`
+        html += `<div class="language-id">${options.langId}</div>`;
     }
-    html += `<code>`
+    html += `<code>`;
 
     lines.forEach((l, index) => {
         const lineNumber = index + 1;
 
-        let lineClass = 'line'
+        let lineClass = "line";
         if (highlightedLines.has(lineNumber)) {
-            lineClass += ' highlight'
+            lineClass += " highlight";
         }
         if (addLines.has(lineNumber)) {
-            lineClass += ' add'
+            lineClass += " add";
         }
         if (deleteLines.has(lineNumber)) {
-            lineClass += ' del'
+            lineClass += " del";
         }
         if (focusLines.has(lineNumber)) {
-            lineClass += ' focus'
+            lineClass += " focus";
         }
 
-        html += `<span class="${lineClass.trim()}">`
+        html += `<span class="${lineClass.trim()}">`;
 
-        l.forEach(token => {
-            const cssDeclarations = [`color: ${token.color || options.fg}`]
-            if (token.fontStyle > FontStyle.None) {
-                cssDeclarations.push(FONT_STYLE_TO_CSS[token.fontStyle])
+        l.forEach((token) => {
+            const cssDeclarations = [];
+            if (theme) {
+                cssDeclarations.push(`color: ${token.color || theme.theme.fg}`);
+            } else if (themes) {
+                cssDeclarations.push(token.htmlStyle);
             }
-            html += `<span style="${cssDeclarations.join('; ')}">${escapeHtml(token.content)}</span>`
-        })
-        html += `</span>\n`
-    })
-    html = html.replace(/\n*$/, '') // Get rid of final new lines
-    html += `</code></pre>`
 
-    return html
-}
+            if (token.fontStyle > FontStyle.None) {
+                cssDeclarations.push(FONT_STYLE_TO_CSS[token.fontStyle]);
+            }
+            html += `<span style="${cssDeclarations.join("; ")}">${escapeHtml(
+                token.content
+            )}</span>`;
+        });
+        html += `</span>\n`;
+    });
+    html = html.replace(/\n*$/, ""); // Get rid of final new lines
+    html += `</code></pre>`;
 
-const makeHighlightSet = function(highlightLines) {
+    return html;
+};
+
+const makeHighlightSet = function (highlightLines) {
     const lines = new Set();
 
-    if (! highlightLines) {
+    if (!highlightLines) {
         return lines;
     }
 
     for (let lineSpec of highlightLines) {
-        if (lineSpec.toString().includes('-')) {
-            const [begin, end] = lineSpec.split('-').map(lineNo => Number(lineNo))
+        if (lineSpec.toString().includes("-")) {
+            const [begin, end] = lineSpec
+                .split("-")
+                .map((lineNo) => Number(lineNo));
             for (let line = begin; line <= end; line++) {
                 lines.add(line);
             }
@@ -94,19 +136,19 @@ const makeHighlightSet = function(highlightLines) {
         }
     }
 
-    return lines
-}
+    return lines;
+};
 
 const htmlEscapes = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#39;'
-}
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;",
+};
 
 function escapeHtml(html) {
-    return html.replace(/[&<>"']/g, chr => htmlEscapes[chr])
+    return html.replace(/[&<>"']/g, (chr) => htmlEscapes[chr]);
 }
 
 exports.renderToHtml = renderToHtml;
