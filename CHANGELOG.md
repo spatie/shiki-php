@@ -2,6 +2,14 @@
 
 All notable changes to `shiki-php` will be documented in this file.
 
+## 2.2.2 - 2024-11-06
+
+### What's Changed
+
+* fix: support string and object for `token.htmlStyle` by @Barbapapazes in https://github.com/spatie/shiki-php/pull/28
+
+**Full Changelog**: https://github.com/spatie/shiki-php/compare/2.2.1...2.2.2
+
 ## 2.2.1 - 2024-11-05
 
 ### What's Changed
