@@ -7,6 +7,6 @@
   "author": "Spatie",
   "license": "MIT",
   "dependencies": {
-    "shiki": "^1.22.2"
+    "shiki": "^2.2.0"
   }
 }
