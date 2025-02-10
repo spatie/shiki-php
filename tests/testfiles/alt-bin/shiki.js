@@ -8,15 +8,11 @@ const customLanguages = {
         scopeName: 'text.html.statamic',
         embeddedLangs: ['html'],
     },
-    blade: {
-        scopeName: 'text.html.php.blade',
-        embeddedLangs: ['html', 'php'],
-    },
 };
 
 async function main(args) {
     const shiki = await import('shiki');
-    const highlighter = await shiki.getHighlighter({});
+    const highlighter = await shiki.createHighlighter({});
 
     for (const [lang, spec] of Object.entries(customLanguages)) {
         for (const embedded of spec.embeddedLangs) {
