@@ -2,6 +2,14 @@
 
 All notable changes to `shiki-php` will be documented in this file.
 
+## 2.3.0 - 2025-02-10
+
+### What's Changed
+
+* feat: upgrade shiki to v2 by @heywhy in https://github.com/spatie/shiki-php/pull/29
+
+**Full Changelog**: https://github.com/spatie/shiki-php/compare/2.2.2...2.3.0
+
 ## 2.2.2 - 2024-11-06
 
 ### What's Changed
