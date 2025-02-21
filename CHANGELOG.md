@@ -2,6 +2,18 @@
 
 All notable changes to `shiki-php` will be documented in this file.
 
+## 2.3.2 - 2025-02-21
+
+### What's Changed
+
+* Removed PHP ^7.4 from requirements by @timoisik in https://github.com/spatie/shiki-php/pull/30
+
+### New Contributors
+
+* @timoisik made their first contribution in https://github.com/spatie/shiki-php/pull/30
+
+**Full Changelog**: https://github.com/spatie/shiki-php/compare/2.3.1...2.3.2
+
 ## 2.3.1 - 2025-02-18
 
 ### What's Changed
