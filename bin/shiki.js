@@ -47,9 +47,9 @@ async function main(args) {
             await highlighter.loadTheme(theme);
         }
     } else if (themes) {
-        for (const theme of Object.values(themes)) {
+        for (const [key, theme] of Object.entries(themes)) {
             if (fs.existsSync(theme)) {
-                themes[theme] = loadLocalTheme(theme);
+                themes[key] = loadLocalTheme(theme);
             } else {
                 await highlighter.loadTheme(theme);
             }
