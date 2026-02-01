@@ -2,6 +2,14 @@
 
 All notable changes to `shiki-php` will be documented in this file.
 
+## 2.3.3 - 2026-02-01
+
+### What's Changed
+
+* Fix: Support large code blocks by passing input via stdin instead of command-line arguments (#36) by @drewrichards
+
+This fixes the `proc_open(): posix_spawn() failed: Argument list too long` error that occurred when highlighting large code blocks.
+
 ## 2.3.2 - 2025-02-21
 
 ### What's Changed
