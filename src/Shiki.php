@@ -109,13 +109,13 @@ class Shiki
                 $home . '/n/bin', // support https://github.com/tj/n
             ]),
             'shiki.js',
-            json_encode(array_values($arguments)),
         ];
 
         $process = new Process(
             $command,
             $this->getWorkingDirPath(),
             null,
+            json_encode(array_values($arguments)),
         );
 
         $process->run();

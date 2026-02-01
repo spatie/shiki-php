@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const renderer = require('./renderer');
-const args = JSON.parse(process.argv.slice(2));
 
 const customLanguages = {
     antlers: {
@@ -79,7 +78,52 @@ async function main(args) {
     process.stdout.write(rendered);
 }
 
-main(args)
+resolveArgs()
+    .then(main)
+    .catch((error) => {
+        console.error(error);
+        process.exit(1);
+    });
+
+async function resolveArgs() {
+    const stdinPayload = await readFromStdin();
+
+    if (stdinPayload !== null) {
+        return JSON.parse(stdinPayload);
+    }
+
+    const argvPayload = process.argv.slice(2);
+
+    if (argvPayload.length === 0) {
+        return [];
+    }
+
+    return JSON.parse(argvPayload);
+}
+
+function readFromStdin() {
+    if (process.stdin.isTTY) {
+        return Promise.resolve(null);
+    }
+
+    return new Promise((resolve, reject) => {
+        const chunks = [];
+
+        process.stdin.setEncoding("utf8");
+        process.stdin.on("data", (chunk) => chunks.push(chunk));
+        process.stdin.on("end", () => {
+            const payload = chunks.join("");
+
+            if (payload.trim() === "") {
+                resolve(null);
+                return;
+            }
+
+            resolve(payload);
+        });
+        process.stdin.on("error", reject);
+    });
+}
 
 function loadLanguage(language) {
     const path = getLanguagePath(language);
