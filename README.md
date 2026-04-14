@@ -56,7 +56,7 @@ npm install shiki
 yarn add shiki
 ```
 
-Make sure you have installed Node 10 or higher.
+Make sure you have installed Node 20 or higher.
 
 ## Usage
 
@@ -199,7 +199,7 @@ then the package will be unlikely to find your version of node as it looks for t
 the node distributable in your NVM folder, to that of the `usr/local/bin`. Such a command might look like this:
 
 ```bash
-sudo ln -s /home/some-user/.nvm/versions/node/v17.3.1/bin/node /usr/local/bin/node
+sudo ln -s /home/some-user/.nvm/versions/node/v20.11.1/bin/node /usr/local/bin/node
 ```
 
 Creating this symlink will allow the package to find your NPM executable. Please note, if you change

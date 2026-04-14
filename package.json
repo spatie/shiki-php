@@ -6,7 +6,10 @@
   },
   "author": "Spatie",
   "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
-    "shiki": "^2.2.0"
+    "shiki": "^4.0.2"
   }
 }
