@@ -50,7 +50,7 @@ async function main(args) {
             if (fs.existsSync(themes[theme])) {
                 themes[theme] = loadLocalTheme(themes[theme]);
             } else {
-                await highlighter.loadTheme(theme);
+                await highlighter.loadTheme(themes[theme]);
             }
         }
     }

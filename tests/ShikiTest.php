@@ -149,6 +149,17 @@ it('can receive a light and a dark theme', function () {
     assertMatchesSnapshot($highlightedCode);
 });
 
+it('can receive a light and a dark custom theme', function () {
+    $code = '<?php echo "Hello World"; ?>';
+
+    $highlightedCode = Shiki::highlight($code, null, [
+        'light' => __DIR__ . '/testfiles/ayu-light.json',
+        'dark' => __DIR__ . '/testfiles/ayu-dark.json',
+    ]);
+
+    assertMatchesSnapshot($highlightedCode);
+});
+
 it('throws on invalid theme', function () {
     $code = '<?php echo "Hello World"; ?>';
 
