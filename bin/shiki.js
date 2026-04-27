@@ -46,11 +46,11 @@ async function main(args) {
             await highlighter.loadTheme(theme);
         }
     } else if (themes) {
-        for (const theme of Object.values(themes)) {
-            if (fs.existsSync(theme)) {
-                themes[theme] = loadLocalTheme(theme);
+        for (const theme of Object.keys(themes)) {
+            if (fs.existsSync(themes[theme])) {
+                themes[theme] = loadLocalTheme(themes[theme]);
             } else {
-                await highlighter.loadTheme(theme);
+                await highlighter.loadTheme(themes[theme]);
             }
         }
     }
