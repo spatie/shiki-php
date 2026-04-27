@@ -56,7 +56,7 @@ npm install shiki
 yarn add shiki
 ```
 
-Make sure you have installed Node 10 or higher.
+Make sure you have installed Node 20 or higher.
 
 ## Usage
 
@@ -116,41 +116,6 @@ Shiki::highlight(
 
 You can then target these classes in your own CSS to color these lines how you want.
 
-## PHP 7.4 support
-
-Shiki has a nice and easy syntax in combination with at least PHP 8.
-
-It does support PHP 7.4, but does loose a little bit of it's nice syntax if using it with PHP7.4, as you need to follow the order of the variables.
-
-```php
-// As reference
-highlight(
-    string $code,
-    ?string $language = 'php',
-    ?string $theme = 'nord',
-    ?array $highlightLines = [],
-    ?array $addLines = [],
-    ?array $deleteLines = [],
-    ?array $focusLines = []
-)
-
-// Instead of PHP 8 syntax
-Shiki::highlight(
-    code: $code,
-    language: 'php',
-    deleteLines: [1],
-);
-
-// You need to follow PHP 7.4 syntax
-Shiki::highlight(
-    $code,
-    'php',
-    null,
-    null,
-    [1],
-);
-```
-
 ## Determining available languages
 
 To get an array with [all languages that Shiki supports](https://github.com/shikijs/shiki/blob/master/docs/languages.md), call `getAvailableLanguages`
@@ -199,7 +164,7 @@ then the package will be unlikely to find your version of node as it looks for t
 the node distributable in your NVM folder, to that of the `usr/local/bin`. Such a command might look like this:
 
 ```bash
-sudo ln -s /home/some-user/.nvm/versions/node/v17.3.1/bin/node /usr/local/bin/node
+sudo ln -s /home/some-user/.nvm/versions/node/v20.11.1/bin/node /usr/local/bin/node
 ```
 
 Creating this symlink will allow the package to find your NPM executable. Please note, if you change
