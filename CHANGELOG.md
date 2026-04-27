@@ -2,6 +2,15 @@
 
 All notable changes to `shiki-php` will be documented in this file.
 
+## 2.4.0 - 2026-04-27
+
+### What's Changed
+
+* feat: Update shiki to v4 by @s3ththompson in https://github.com/spatie/shiki-php/pull/40
+* fix: dual custom themes by @s3ththompson in https://github.com/spatie/shiki-php/pull/39
+
+**Full Changelog**: https://github.com/spatie/shiki-php/compare/2.3.3...2.4.0
+
 ## 2.3.3 - 2026-02-01
 
 ### What's Changed
