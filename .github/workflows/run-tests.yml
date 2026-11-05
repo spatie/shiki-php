@@ -6,20 +6,20 @@ jobs:
   test:
     runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        php: [8.0, 8.1, 8.2, 8.3]
+        php: ['8.0', '8.1', '8.2', '8.3', '8.4', '8.5', '8.6']
         stability: [prefer-lowest, prefer-stable]
 
     name: P${{ matrix.php }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v7
 
       - name: Setup Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v7
         with:
           node-version: '20'
 
@@ -29,6 +29,11 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
           coverage: none
+
+      - name: Verify PHP version
+        run: |
+          php --version
+          php -r 'exit(PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION === $argv[1] ? 0 : 1);' '${{ matrix.php }}'
 
       - name: Setup problem matchers
         run: |
